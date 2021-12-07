@@ -24,10 +24,4 @@ func TestDay6(t *testing.T) {
 		assert.Equal(t, 5934, fishOnDay(times, 80))
 		assert.Equal(t, 26984457539, fishOnDay(times, 256))
 	})
-
-
-	//t.Run("Test build table - two generations", func(t *testing.T) {
-	//	table := buildSpawnTable(2, 1, 5)
-	//	assert.Equal(t, []int{3, 1, 1, 1, 0, 0, 0, 0}, table)
-	//})
 }

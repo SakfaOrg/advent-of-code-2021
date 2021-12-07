@@ -67,5 +67,5 @@ func Part1(lines []string) string {
 func Part2(lines []string) string {
 	initialTimes := parseInput(lines)
 
-	return fmt.Sprintf("fishes after day 80=%d", fishOnDay(initialTimes, 256))
+	return fmt.Sprintf("fishes after day 256=%d", fishOnDay(initialTimes, 256))
 }

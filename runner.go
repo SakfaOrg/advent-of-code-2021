@@ -7,6 +7,7 @@ import (
 	"advent2021/day4"
 	"advent2021/day5"
 	"advent2021/day6"
+	"advent2021/day7"
 	advent2 "advent2021/utils"
 	"fmt"
 )
@@ -19,9 +20,11 @@ func run(day int, part1 PartRunner, part2 PartRunner) {
 	advent2.Timed("part1", func() string {
 		return part1(lines)
 	})
-	advent2.Timed("part2", func() string {
-		return part2(lines)
-	})
+	if part2 != nil {
+		advent2.Timed("part2", func() string {
+			return part2(lines)
+		})
+	}
 }
 
 func main() {
@@ -31,4 +34,5 @@ func main() {
 	run(4, day4.Part1, day4.Part2)
 	run(5, day5.Part1, day5.Part2)
 	run(6, day6.Part1, day6.Part2)
+	run(7, day7.Part1, day7.Part2)
 }
