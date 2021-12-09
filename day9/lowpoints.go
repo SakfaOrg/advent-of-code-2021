@@ -26,12 +26,12 @@ func parseInput(lines []string) [][]Field {
 	return points
 }
 
-func floodFill(points [][]Field, row, col, acc int) int {
+func floodFill(points [][]Field, row, col int) int {
 	height := len(points)
 	width := len(points[0])
 
 	points[row][col].visited = true
-	acc++
+	visited := 1
 
 	neighbours := [][]int {
 		{row - 1, col},
@@ -46,12 +46,12 @@ func floodFill(points [][]Field, row, col, acc int) int {
 
 		if inBounds(nrow, ncol, height, width) {
 			if !points[nrow][ncol].visited && points[nrow][ncol].value != 9 {
-				acc += floodFill(points, nrow, ncol, 0)
+				visited += floodFill(points, nrow, ncol)
 			}
 		}
 	}
 
-	return acc
+	return visited
 }
 
 func Part2(lines []string) string {
@@ -63,7 +63,7 @@ func Part2(lines []string) string {
 		for col := 0; col < width; col++ {
 			if inBounds(row, col, height, width) {
 				if !points[row][col].visited && points[row][col].value != 9 {
-					basinSize := floodFill(points, row, col, 0)
+					basinSize := floodFill(points, row, col)
 					basinSizes = append(basinSizes, basinSize)
 				}
 			}
@@ -109,6 +109,7 @@ func Part1(lines []string) string {
 
 				if points[nrow][ncol].value <= points[row][col].value {
 					isLocalMinimum = false
+					break
 				}
 			}
 
