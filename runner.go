@@ -9,6 +9,7 @@ import (
 	"advent2021/day6"
 	"advent2021/day7"
 	"advent2021/day8"
+	"advent2021/day9"
 	advent2 "advent2021/utils"
 	"fmt"
 )
@@ -37,4 +38,5 @@ func main() {
 	run(6, day6.Part1, day6.Part2)
 	run(7, day7.Part1, day7.Part2)
 	run(8, day8.Part1, day8.Part2)
+	run(9, day9.Part1, day9.Part2)
 }
