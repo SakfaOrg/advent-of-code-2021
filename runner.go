@@ -4,6 +4,7 @@ import (
 	"advent2021/day1"
 	"advent2021/day10"
 	"advent2021/day11"
+	"advent2021/day12"
 	"advent2021/day2"
 	"advent2021/day3"
 	"advent2021/day4"
@@ -43,4 +44,5 @@ func main() {
 	run(9, day9.Part1, day9.Part2)
 	run(10, day10.Part1, day10.Part2)
 	run(11, day11.Part1, day11.Part2)
+	run(12, day12.Part1, day12.Part2)
 }
