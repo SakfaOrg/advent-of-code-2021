@@ -19,7 +19,7 @@ func TestOctopuses(t *testing.T) {
 5283751526`, "\n")
 
 	t.Run("Test Cave", func(t *testing.T) {
-		c := NewCave([]string { "123", "789"})
+		c := NewCave([]string{"123", "789"})
 		assert.Equal(t, 2, c.height)
 		assert.Equal(t, 3, c.width)
 		assert.Equal(t, Octopus{0, 0, 1}, c.octopi[0][0])
@@ -27,25 +27,25 @@ func TestOctopuses(t *testing.T) {
 	})
 
 	t.Run("Test tick", func(t *testing.T) {
-		c := NewCave([]string { "193", "559"})
+		c := NewCave([]string{"193", "559"})
 		flashed := tick(c)
 		assert.Equal(t, 2, flashed)
 	})
 
 	t.Run("Test neighbours of", func(t *testing.T) {
-		c := NewCave([]string { "987", "456"})
+		c := NewCave([]string{"987", "456"})
 		neighbours := c.neighboursOf(c.octopi[0][1])
 		assert.Equal(t, 5, len(neighbours))
 	})
 
 	t.Run("Test tick easy multiple generations", func(t *testing.T) {
-		c := NewCave([]string { "988", "657"})
+		c := NewCave([]string{"988", "657"})
 		flashed := tick(c)
 		assert.Equal(t, 6, flashed)
 	})
 
 	t.Run("Test demo input small", func(t *testing.T) {
-		c := NewCave([]string {"11111", "19991", "19191", "19991", "11111"})
+		c := NewCave([]string{"11111", "19991", "19191", "19991", "11111"})
 		flashed := tick(c)
 		assert.Equal(t, 9, flashed)
 	})

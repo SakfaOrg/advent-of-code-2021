@@ -19,7 +19,7 @@ func Part1(lines []string) string {
 		command := words[0]
 		arg := advent.MustAtoi(words[1])
 
-		switch (command) {
+		switch command {
 		case "forward":
 			horizontal += arg
 		case "down":
@@ -31,7 +31,7 @@ func Part1(lines []string) string {
 		}
 	}
 
-	return fmt.Sprintf("horizontal*depth=result: %d*%d=%d", horizontal, depth, horizontal * depth)
+	return fmt.Sprintf("horizontal*depth=result: %d*%d=%d", horizontal, depth, horizontal*depth)
 }
 
 func Part2(lines []string) string {
@@ -44,7 +44,7 @@ func Part2(lines []string) string {
 		command := words[0]
 		arg := advent.MustAtoi(words[1])
 
-		switch (command) {
+		switch command {
 		case "forward":
 			horizontal += arg
 			depth += aim * arg
@@ -57,5 +57,5 @@ func Part2(lines []string) string {
 		}
 	}
 
-	return fmt.Sprintf("horizontal*depth=result: %d*%d=%d", horizontal, depth, horizontal * depth)
+	return fmt.Sprintf("horizontal*depth=result: %d*%d=%d", horizontal, depth, horizontal*depth)
 }

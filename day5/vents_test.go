@@ -35,9 +35,9 @@ func TestDay5(t *testing.T) {
 		fillPoints(points, line)
 
 		assert.Equal(t, 3, len(points))
-		assert.Equal(t, int16(1), points[point{0,9}])
-		assert.Equal(t, int16(1), points[point{1,9}])
-		assert.Equal(t, int16(1), points[point{2,9}])
+		assert.Equal(t, int16(1), points[point{0, 9}])
+		assert.Equal(t, int16(1), points[point{1, 9}])
+		assert.Equal(t, int16(1), points[point{2, 9}])
 	})
 
 	t.Run("Test fill horizontal line", func(t *testing.T) {
@@ -47,9 +47,9 @@ func TestDay5(t *testing.T) {
 		fillPoints(points, line)
 
 		assert.Equal(t, 3, len(points))
-		assert.Equal(t, int16(1), points[point{0,9}])
-		assert.Equal(t, int16(1), points[point{0,8}])
-		assert.Equal(t, int16(1), points[point{0,7}])
+		assert.Equal(t, int16(1), points[point{0, 9}])
+		assert.Equal(t, int16(1), points[point{0, 8}])
+		assert.Equal(t, int16(1), points[point{0, 7}])
 	})
 
 	t.Run("Test fill 2 lines", func(t *testing.T) {
@@ -59,11 +59,11 @@ func TestDay5(t *testing.T) {
 		fillPoints(points, parseLine("0,9 -> 2,9"))
 
 		assert.Equal(t, 5, len(points))
-		assert.Equal(t, int16(2), points[point{0,9}])
-		assert.Equal(t, int16(1), points[point{0,8}])
-		assert.Equal(t, int16(1), points[point{0,7}])
-		assert.Equal(t, int16(1), points[point{1,9}])
-		assert.Equal(t, int16(1), points[point{2,9}])
+		assert.Equal(t, int16(2), points[point{0, 9}])
+		assert.Equal(t, int16(1), points[point{0, 8}])
+		assert.Equal(t, int16(1), points[point{0, 7}])
+		assert.Equal(t, int16(1), points[point{1, 9}])
+		assert.Equal(t, int16(1), points[point{2, 9}])
 	})
 
 	t.Run("Test part 1", func(t *testing.T) {
@@ -78,11 +78,11 @@ func TestDay5(t *testing.T) {
 		fillPoints(points, parseLine("4,5 -> 2,3"))
 
 		assert.Equal(t, 5, len(points))
-		assert.Equal(t, int16(1), points[point{0,1}])
-		assert.Equal(t, int16(1), points[point{1,2}])
-		assert.Equal(t, int16(2), points[point{2,3}])
-		assert.Equal(t, int16(1), points[point{3,4}])
-		assert.Equal(t, int16(1), points[point{4,5}])
+		assert.Equal(t, int16(1), points[point{0, 1}])
+		assert.Equal(t, int16(1), points[point{1, 2}])
+		assert.Equal(t, int16(2), points[point{2, 3}])
+		assert.Equal(t, int16(1), points[point{3, 4}])
+		assert.Equal(t, int16(1), points[point{4, 5}])
 	})
 
 	t.Run("Test fill diagonal 135", func(t *testing.T) {
@@ -91,11 +91,11 @@ func TestDay5(t *testing.T) {
 		fillPoints(points, parseLine("2,2 -> 4,0"))
 
 		assert.Equal(t, 5, len(points))
-		assert.Equal(t, int16(1), points[point{0,4}])
-		assert.Equal(t, int16(1), points[point{1,3}])
-		assert.Equal(t, int16(2), points[point{2,2}])
-		assert.Equal(t, int16(1), points[point{3,1}])
-		assert.Equal(t, int16(1), points[point{4,0}])
+		assert.Equal(t, int16(1), points[point{0, 4}])
+		assert.Equal(t, int16(1), points[point{1, 3}])
+		assert.Equal(t, int16(2), points[point{2, 2}])
+		assert.Equal(t, int16(1), points[point{3, 1}])
+		assert.Equal(t, int16(1), points[point{4, 0}])
 	})
 
 	t.Run("Test part 2", func(t *testing.T) {

@@ -70,10 +70,9 @@ func TestChunks(t *testing.T) {
 
 	t.Run("Test part1", func(t *testing.T) {
 		assert.Equal(t, "Syntax error score: 26397", Part1(strings.Split(demoInput, "\n")))
-	});
+	})
 
 	t.Run("Test part2", func(t *testing.T) {
 		assert.Equal(t, "Middle score: 288957", Part2(strings.Split(demoInput, "\n")))
-	});
+	})
 }
-

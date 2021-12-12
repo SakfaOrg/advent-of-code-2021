@@ -82,7 +82,7 @@ func processLine(line string) (message string, syntaxScore, finishScore int) {
 		var symbol rune
 		symbols, symbol = symbols.pop()
 		closingSymbol := bracketsMap[symbol]
-		finishScore = finishScore * 5 + closingPointsMap[closingSymbol]
+		finishScore = finishScore*5 + closingPointsMap[closingSymbol]
 	}
 
 	return
@@ -107,5 +107,5 @@ func Part2(lines []string) string {
 	}
 
 	sort.Ints(scores)
-	return fmt.Sprintf("Middle score: %d", scores[len(scores) / 2])
+	return fmt.Sprintf("Middle score: %d", scores[len(scores)/2])
 }

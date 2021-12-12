@@ -11,7 +11,7 @@ import (
  */
 
 type point struct {
-	x,y int16
+	x, y int16
 }
 
 type line struct {
@@ -77,8 +77,8 @@ func fillPoints(points map[point]int16, l line) {
 		}
 	} else {
 		dx := sign(l.to.x - l.from.x)
-		dy := sign(l.to.y - l.from.y);
-		for x, y := l.from.x, l.from.y; x != l.to.x + dx; x, y = x + dx, y + dy {
+		dy := sign(l.to.y - l.from.y)
+		for x, y := l.from.x, l.from.y; x != l.to.x+dx; x, y = x+dx, y+dy {
 			points[point{x, y}] = points[point{x, y}] + 1
 		}
 	}

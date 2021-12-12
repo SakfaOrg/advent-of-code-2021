@@ -8,7 +8,7 @@ import (
 
 func TestSegments(t *testing.T) {
 	demo :=
-`be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe
+		`be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe
 edbfga begcd cbg gc gcadebf fbgde acbgfd abcde gfcbed gfec | fcgedb cgb dgebacf gc
 fgaebd cg bdaec gdafb agbcfd gdcbef bgcad gfac gcb cdgabef | cg cg fdcagb cbg
 fbegcd cbd adcefb dageb afcb bc aefdc ecdab fgdeca fcdbega | efabcd cedba gadfec cb
@@ -21,14 +21,14 @@ gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce
 
 	demoLines := strings.Split(demo, "\n")
 	t.Run("Test demo input full", func(t *testing.T) {
-		assert.Equal(t, "unique digits=26", Part1(demoLines));
+		assert.Equal(t, "unique digits=26", Part1(demoLines))
 	})
 
 	t.Run("Test demo input full part 2", func(t *testing.T) {
-		assert.Equal(t, "sum of values: 61229", Part2(demoLines));
+		assert.Equal(t, "sum of values: 61229", Part2(demoLines))
 	})
 
 	t.Run("Solve demo line", func(t *testing.T) {
-		assert.Equal(t, 5353, solveLine("acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf"));
+		assert.Equal(t, 5353, solveLine("acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf"))
 	})
 }

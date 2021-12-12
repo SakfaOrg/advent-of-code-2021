@@ -19,7 +19,7 @@ func TestDay6(t *testing.T) {
 	})
 
 	t.Run("Test demo input", func(t *testing.T) {
-		times := []int{3,4,3,1,2}
+		times := []int{3, 4, 3, 1, 2}
 		assert.Equal(t, 26, fishOnDay(times, 18))
 		assert.Equal(t, 5934, fishOnDay(times, 80))
 		assert.Equal(t, 26984457539, fishOnDay(times, 256))

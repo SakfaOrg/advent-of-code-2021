@@ -6,13 +6,13 @@ import (
 )
 
 type Cave struct {
-	name string
+	name        string
 	connections map[string]*Cave
 }
 
 func NewCave(name string) *Cave {
 	return &Cave{
-		name: name,
+		name:        name,
 		connections: make(map[string]*Cave),
 	}
 }
@@ -76,7 +76,8 @@ func countPaths(cave *Cave, visitedSmallCaves map[string]bool, canRevisitSmall b
 			continue
 		}
 
-		result += countPaths(connection, clone(visitedSmallCaves), canRevisitSmall && !(connection.isSmall() && visitedSmallCaves[connection.name]))
+		revisitedSmall := connection.isSmall() && visitedSmallCaves[connection.name]
+		result += countPaths(connection, clone(visitedSmallCaves), canRevisitSmall && !revisitedSmall)
 	}
 
 	return result

@@ -12,7 +12,7 @@ func TestBoard(t *testing.T) {
 		assert.Equal(t, " 01  00\n 22  34", board.String())
 		board.Strike(22)
 		assert.Equal(t, " 01  00\n*22  34", board.String())
-	});
+	})
 
 	t.Run("test line win", func(t *testing.T) {
 		board := NewBoard(0, []string{" 1  0", "22 34"})
@@ -25,7 +25,7 @@ func TestBoard(t *testing.T) {
 		assert.Equal(t, true, board.Wins())
 
 		assert.Equal(t, 1, board.SumOfFieldsLeft())
-	});
+	})
 
 	t.Run("test column win", func(t *testing.T) {
 		board := NewBoard(0, []string{" 1  0", "22 34"})

@@ -33,12 +33,12 @@ func Part1(lines []string) string {
 			board.Strike(number)
 			if board.Wins() {
 				left := board.SumOfFieldsLeft()
-				return fmt.Sprintf("winner: board=%d, called*left=result; %d*%d=%d", board.number, number, left, int(number) * left)
+				return fmt.Sprintf("winner: board=%d, called*left=result; %d*%d=%d", board.number, number, left, int(number)*left)
 			}
 		}
 	}
 
-	return "No one won!";
+	return "No one won!"
 }
 
 func Part2(lines []string) string {

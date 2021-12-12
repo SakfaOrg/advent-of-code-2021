@@ -8,13 +8,13 @@ import (
 )
 
 type Field struct {
-	number uint8
+	number  uint8
 	striked bool
 }
 
 func NewField(number uint8) *Field {
 	return &Field{
-		number: number,
+		number:  number,
 		striked: false,
 	}
 }
@@ -77,7 +77,7 @@ func (b Board) Wins() bool {
 		}
 	}
 
-	return false;
+	return false
 }
 
 func (b Board) SumOfFieldsLeft() int {

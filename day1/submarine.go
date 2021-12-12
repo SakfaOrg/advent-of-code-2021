@@ -29,7 +29,7 @@ func windowSum(window [3]int) int {
 }
 
 func Part2(lines []string) string {
-	prevWindow := [3]int {
+	prevWindow := [3]int{
 		advent.MustAtoi(lines[0]),
 		advent.MustAtoi(lines[1]),
 		advent.MustAtoi(lines[2]),
@@ -55,4 +55,3 @@ func Part2(lines []string) string {
 
 	return fmt.Sprintf("depth increases in moving window width=3: %d", counter)
 }
-

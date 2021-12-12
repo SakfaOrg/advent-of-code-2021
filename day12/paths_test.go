@@ -6,10 +6,10 @@ import (
 )
 
 func TestPaths(t *testing.T) {
-	demoInput := []string {"start-A", "start-b", "A-c", "A-b", "b-d", "A-end", "b-end"}
-	demoInput2 := []string {"dc-end", "HN-start", "start-kj", "dc-start", "dc-HN",
+	demoInput := []string{"start-A", "start-b", "A-c", "A-b", "b-d", "A-end", "b-end"}
+	demoInput2 := []string{"dc-end", "HN-start", "start-kj", "dc-start", "dc-HN",
 		"LN-dc", "HN-end", "kj-sa", "kj-HN", "kj-dc"}
-	demoInput3 := []string {"fs-end", "he-DX", "fs-he", "start-DX", "pj-DX", "end-zg",
+	demoInput3 := []string{"fs-end", "he-DX", "fs-he", "start-DX", "pj-DX", "end-zg",
 		"zg-sl", "zg-pj", "pj-he", "RW-he", "fs-DX", "pj-RW", "zg-RW", "start-pj",
 		"he-WI", "zg-he", "pj-fs", "start-RW"}
 

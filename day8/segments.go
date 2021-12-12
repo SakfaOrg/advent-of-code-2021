@@ -30,12 +30,13 @@ func findUniqueSignalByLength(signals []string, length int) string {
 /**
  * finds a signal of length length that has all the wires from mustHaveWires
  */
-func findUniqueSignalByLengthWithWires(signals[] string, length int, mustHaveWires string) string {
+func findUniqueSignalByLengthWithWires(signals []string, length int, mustHaveWires string) string {
 	var result []string
-	Signal: for _, maybeResult := range signals {
+Signal:
+	for _, maybeResult := range signals {
 		if len(maybeResult) == length {
 			for i := 0; i < len(mustHaveWires); i++ {
-				wire := mustHaveWires[i:i+1]
+				wire := mustHaveWires[i : i+1]
 				if !strings.Contains(maybeResult, wire) {
 					continue Signal
 				}
@@ -56,7 +57,7 @@ func findUniqueSignalByLengthWithWires(signals[] string, length int, mustHaveWir
 func getMissingWire(signal string, knownWires string) string {
 	var result []string
 	for i := 0; i < len(signal); i++ {
-		wire := signal[i:i+1]
+		wire := signal[i : i+1]
 		if !strings.Contains(knownWires, wire) {
 			result = append(result, wire)
 		}
@@ -84,7 +85,7 @@ func inferWires(signals []string) map[string]string {
 	var bdWires string
 	var gWire string
 	for i := 0; i < 7; i++ {
-		wire := abcdefgWire[i:i+1]
+		wire := abcdefgWire[i : i+1]
 		if strings.Contains(sevenSignal, wire) && !strings.Contains(oneSignal, wire) {
 			aWire = wire
 		}
@@ -115,7 +116,7 @@ func inferWires(signals []string) map[string]string {
 	cWire = getMissingWire(cfWires, fWire)
 
 	// and the final wire: e
-	eWire = getMissingWire(abcdefgWire, aWire + bWire + cWire + dWire + fWire + gWire)
+	eWire = getMissingWire(abcdefgWire, aWire+bWire+cWire+dWire+fWire+gWire)
 
 	result := make(map[string]string)
 	result[aWire] = "a"

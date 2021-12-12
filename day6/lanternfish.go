@@ -19,7 +19,7 @@ const cooldown = 2
  * can be answered quickly if we build this array in reverse.
  */
 func buildSpawnTable(cycle, cooldown, days int) []int {
-	result := make([]int, days + 1)
+	result := make([]int, days+1)
 	for day := days - cycle - cooldown; day >= 0; day-- {
 		spawned := 0
 		firstChild := day + cycle + cooldown

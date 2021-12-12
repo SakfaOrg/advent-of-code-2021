@@ -6,7 +6,7 @@ import (
 )
 
 type Field struct {
-	value uint8
+	value   uint8
 	visited bool
 }
 
@@ -17,7 +17,7 @@ func parseInput(lines []string) [][]Field {
 		points[row] = make([]Field, len(line))
 		for col := 0; col < len(line); col++ {
 			points[row][col] = Field{
-				value: line[col] - '0',
+				value:   line[col] - '0',
 				visited: false,
 			}
 		}
@@ -33,7 +33,7 @@ func floodFill(points [][]Field, row, col int) int {
 	points[row][col].visited = true
 	visited := 1
 
-	neighbours := [][]int {
+	neighbours := [][]int{
 		{row - 1, col},
 		{row + 1, col},
 		{row, col - 1},
@@ -71,7 +71,7 @@ func Part2(lines []string) string {
 	}
 
 	sort.Ints(basinSizes)
-	topThree := basinSizes[len(basinSizes) - 3:len(basinSizes)]
+	topThree := basinSizes[len(basinSizes)-3 : len(basinSizes)]
 	result := 1
 	for _, basin := range topThree {
 		result *= basin
@@ -92,7 +92,7 @@ func Part1(lines []string) string {
 	for row := 0; row < height; row++ {
 		for col := 0; col < width; col++ {
 			isLocalMinimum := true
-			neighbours := [][]int {
+			neighbours := [][]int{
 				{row - 1, col},
 				{row + 1, col},
 				{row, col - 1},
@@ -119,7 +119,6 @@ func Part1(lines []string) string {
 		}
 	}
 
-	return fmt.Sprintf("sum of risk points=%d", result);
-
+	return fmt.Sprintf("sum of risk points=%d", result)
 
 }

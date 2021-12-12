@@ -6,8 +6,8 @@ import (
 )
 
 type Octopus struct {
-	row int
-	col int
+	row    int
+	col    int
 	energy uint8
 }
 
@@ -53,7 +53,7 @@ func (o *Octopus) reset() {
 }
 
 type Cave struct {
-	width int
+	width  int
 	height int
 	octopi [][]Octopus
 }
@@ -66,14 +66,14 @@ func NewCave(lines []string) *Cave {
 		octopi[i] = make([]Octopus, width)
 		for j := 0; j < width; j++ {
 			octopi[i][j] = Octopus{
-				row: i,
-				col: j,
+				row:    i,
+				col:    j,
 				energy: lines[i][j] - '0',
 			}
 		}
 	}
 	return &Cave{
-		width: width,
+		width:  width,
 		height: height,
 		octopi: octopi,
 	}
@@ -101,10 +101,10 @@ func (c Cave) inBounds(row, col int) bool {
 }
 
 func (c Cave) neighboursOf(o Octopus) (neighbours []*Octopus) {
-	neighboursCoords := [][]int {
+	neighboursCoords := [][]int{
 		{o.row - 1, o.col - 1},
 		{o.row - 1, o.col},
- 		{o.row - 1, o.col + 1},
+		{o.row - 1, o.col + 1},
 		{o.row, o.col - 1},
 		{o.row, o.col + 1},
 		{o.row + 1, o.col - 1},
@@ -156,7 +156,7 @@ func tick(c *Cave) (flashedCounter int) {
 }
 
 func simulate(c *Cave, days int) (flashed int) {
-	for day := 0; day < days; day ++ {
+	for day := 0; day < days; day++ {
 		flashed += tick(c)
 	}
 	return flashed
