@@ -168,9 +168,9 @@ func Part2(lines []string) string {
 		// or an extra twist in the puzzle
 		for j := finalTransform.width() - 1; j >= 0; j-- {
 			if (isInResult[Point{j, i}]) {
-				resultLine += "*"
+				resultLine += "█"
 			} else {
-				resultLine += " "
+				resultLine += "░3"
 			}
 		}
 		resultLines = append(resultLines, resultLine)
