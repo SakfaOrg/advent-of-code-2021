@@ -49,11 +49,12 @@ func (v VerticalFold) width() (after int) {
 func (v VerticalFold) transform(before Point) (after Point) {
 	after.y = before.y
 	if before.x < v.foldX {
-		after.x = (before.x - v.foldX + 1) * -1
+		after.x = before.x
+		after.x = before.x
 	} else if before.x == v.foldX {
 		panic(fmt.Sprintf("Illegal transform of point %d,%d on fold line %d", before.x, before.y, v.foldX))
 	} else {
-		after.x = before.x - v.foldX - 1
+		after.x = v.foldX - (before.x - v.foldX)
 	}
 	return
 }
@@ -164,13 +165,11 @@ func Part2(lines []string) string {
 	finalTransform := transforms[len(transforms)-1]
 	for i := 0; i < finalTransform.height(); i++ {
 		resultLine := ""
-		// seems my input is a mirror transformation of actual digits, print it backwards. Not sure if that's a bug
-		// or an extra twist in the puzzle
-		for j := finalTransform.width() - 1; j >= 0; j-- {
+		for j := 0; j < finalTransform.width(); j++ {
 			if (isInResult[Point{j, i}]) {
 				resultLine += "█"
 			} else {
-				resultLine += "░3"
+				resultLine += "░"
 			}
 		}
 		resultLines = append(resultLines, resultLine)

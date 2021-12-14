@@ -27,12 +27,12 @@ func TestTransform(t *testing.T) {
 
 		assert.Equal(t, 2, fold.height())
 		assert.Equal(t, 3, fold.width())
-		assert.Equal(t, Point{2, 0}, fold.transform(Point{0, 0}))
+		assert.Equal(t, Point{0, 0}, fold.transform(Point{0, 0}))
 		assert.Equal(t, Point{1, 0}, fold.transform(Point{1, 0}))
-		assert.Equal(t, Point{0, 0}, fold.transform(Point{2, 0}))
-		assert.Equal(t, Point{0, 0}, fold.transform(Point{4, 0}))
+		assert.Equal(t, Point{2, 0}, fold.transform(Point{2, 0}))
+		assert.Equal(t, Point{2, 0}, fold.transform(Point{4, 0}))
 		assert.Equal(t, Point{1, 0}, fold.transform(Point{5, 0}))
-		assert.Equal(t, Point{2, 0}, fold.transform(Point{6, 0}))
+		assert.Equal(t, Point{0, 0}, fold.transform(Point{6, 0}))
 	})
 
 	t.Run("Test parse demo input", func(t *testing.T) {
