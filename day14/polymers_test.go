@@ -19,7 +19,7 @@ func TestPolymers(t *testing.T) {
 
 	t.Run("Test demo compact", func(t *testing.T) {
 		polymer, insertions := parseInput(demoInput)
-		expanded := expandMany(10, countPairs(polymer), insertions)
+		expanded := expandNTimes(10, countPairs(polymer), insertions)
 
 		counts := countLetters(expanded, polymer[len(polymer)-1:])
 		assert.Equal(t, 1749, counts["B"])

@@ -37,7 +37,7 @@ func expand(pairCounts map[string]int, insertions map[string]string) map[string]
 	return result
 }
 
-func expandMany(times int, polymer map[string]int, insertions map[string]string) map[string]int {
+func expandNTimes(times int, polymer map[string]int, insertions map[string]string) map[string]int {
 	current := polymer
 	for i := 0; i < times; i++ {
 		current = expand(current, insertions)
@@ -71,7 +71,7 @@ func findMostAndLeastCommon(counts map[string]int) (mostCommon, leastCommon stri
 
 func solve(lines[] string, steps int) string {
 	polymer, insertions := parseInput(lines)
-	expanded := expandMany(steps, countPairs(polymer), insertions)
+	expanded := expandNTimes(steps, countPairs(polymer), insertions)
 	counts := countLetters(expanded, polymer[len(polymer)-1:])
 	mostCommon, leastCommon, mostCommonCount, leastCommonCount := findMostAndLeastCommon(counts)
 	return fmt.Sprintf("most frequent %s (%d) minus least frequent %s (%d) = %d", mostCommon, mostCommonCount,
