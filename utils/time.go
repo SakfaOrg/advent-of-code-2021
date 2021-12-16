@@ -5,10 +5,23 @@ import (
 	"time"
 )
 
-func Timed(name string, code func() string) {
+func Timed(name string, code func() string) (timeTaken time.Duration) {
 	startedAt := time.Now()
 	result := code()
+	timeTakenCold := time.Now().Sub(startedAt)
 
-	timeTaken := time.Now().Sub(startedAt)
-	fmt.Printf("%s: %s (took %s)\n", name, result, timeTaken)
+	startedAt = time.Now()
+	tries := 10
+	for i := 0; i < tries; i++ {
+		retry := code()
+		if retry != result {
+			fmt.Printf("First result:\n%s\n%d th try:\n%s\n", result, retry)
+			panic("Code doesn't give stable results! See above")
+		}
+	}
+
+	timeTakenWarm := time.Now().Sub(startedAt) / 10
+
+	fmt.Printf("%s: %s (took %s for first, then %s on average for next 10)\n", name, result, timeTakenCold, timeTakenWarm)
+	return timeTakenCold
 }

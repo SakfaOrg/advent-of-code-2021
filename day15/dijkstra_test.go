@@ -10,25 +10,23 @@ import (
 func TestPath(t *testing.T) {
 	t.Run("Test queue", func(t *testing.T) {
 		queue := NewNodesQueue(Point{10, 10})
-		heap.Push(queue, NewNode(Point{0, 0}, 0, nil)) // 20
-		heap.Push(queue, NewNode(Point{1, 0}, 15, nil)) // 34
-		heap.Push(queue, NewNode(Point{2, 0}, 10, nil)) // 28
-		heap.Push(queue, NewNode(Point{3, 0}, 5, nil)) // 22
-		heap.Push(queue, NewNode(Point{3, 3}, 3, nil)) // 17
-		heap.Push(queue, NewNode(Point{1, 1}, 3, nil)) // 21
-		heap.Push(queue, NewNode(Point{5, 5}, 3, nil)) // 13
+		heap.Push(queue, NewNode(Point{0, 0}, 0, nil))
+		heap.Push(queue, NewNode(Point{1, 0}, 15, nil))
+		heap.Push(queue, NewNode(Point{2, 0}, 10, nil))
+		heap.Push(queue, NewNode(Point{3, 0}, 5, nil))
+		heap.Push(queue, NewNode(Point{3, 3}, 3, nil))
 
 		node := heap.Pop(queue).(*Node)
-		assert.Equal(t, Point{5, 5}, node.coords)
-		assert.Equal(t, 3, node.cumulativeRisk)
+		assert.Equal(t, Point{0, 0}, node.coords)
+		assert.Equal(t, 0, node.cumulativeRisk)
 
 		node = heap.Pop(queue).(*Node)
 		assert.Equal(t, Point{3, 3}, node.coords)
 		assert.Equal(t, 3, node.cumulativeRisk)
 
 		node = heap.Pop(queue).(*Node)
-		assert.Equal(t, Point{0, 0}, node.coords)
-		assert.Equal(t, 0, node.cumulativeRisk)
+		assert.Equal(t, Point{3, 0}, node.coords)
+		assert.Equal(t, 5, node.cumulativeRisk)
 	})
 
 	demoInput := strings.Split("1163751742\n1381373672\n2136511328\n3694931569\n7463417111\n1319128137\n1359912421\n3125421639\n1293138521\n2311944581", "\n")

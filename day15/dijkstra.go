@@ -10,13 +10,6 @@ type Point struct {
 	x, y int
 }
 
-func abs(i int) int {
-	if i < 0 {
-		return -i
-	}
-	return i
-}
-
 type Node struct {
 	coords         Point
 	cumulativeRisk int
@@ -144,6 +137,7 @@ func findShortestPath(from Point, to Point, riskMap RiskMap) (found *Node, visit
 	nodesQueue := NewNodesQueue(to)
 	visitedNodes := make(map[Point]bool)
 	heap.Push(nodesQueue, NewNode(from, 0, nil))
+	visitedNodes[from] = true
 	visited = 0
 
 	for nodesQueue.Len() > 0 {
