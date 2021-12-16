@@ -55,7 +55,7 @@ func TestPath(t *testing.T) {
 	})
 
 	t.Run("Test find shortest path", func(t *testing.T) {
-		riskMap := parseInput([]string {"19999", "19111", "11191"})
+		riskMap := parseInput([]string{"19999", "19111", "11191"})
 		from := Point{0, 0}
 		to := Point{riskMap.getWidth() - 1, riskMap.getHeight() - 1}
 		shortest, _ := findShortestPath(from, to, riskMap)

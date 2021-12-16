@@ -18,7 +18,7 @@ func parseInput(lines []string) (polymer string, insertions map[string]string) {
 
 func countPairs(polymer string) map[string]int {
 	result := make(map[string]int)
-	for i := 0; i < len(polymer) - 1; i++ {
+	for i := 0; i < len(polymer)-1; i++ {
 		result[polymer[i:i+2]] += 1
 	}
 	return result
@@ -28,8 +28,8 @@ func expand(pairCounts map[string]int, insertions map[string]string) map[string]
 	result := make(map[string]int)
 	for pair, count := range pairCounts {
 		if insertion, ok := insertions[pair]; ok {
-			result[pair[0:1] + insertion] += count
-			result[insertion + pair[1:2]] += count
+			result[pair[0:1]+insertion] += count
+			result[insertion+pair[1:2]] += count
 		} else {
 			result[pair] += count
 		}
@@ -69,13 +69,13 @@ func findMostAndLeastCommon(counts map[string]int) (mostCommon, leastCommon stri
 	return
 }
 
-func solve(lines[] string, steps int) string {
+func solve(lines []string, steps int) string {
 	polymer, insertions := parseInput(lines)
 	expanded := expandNTimes(steps, countPairs(polymer), insertions)
 	counts := countLetters(expanded, polymer[len(polymer)-1:])
 	mostCommon, leastCommon, mostCommonCount, leastCommonCount := findMostAndLeastCommon(counts)
 	return fmt.Sprintf("most frequent %s (%d) minus least frequent %s (%d) = %d", mostCommon, mostCommonCount,
-		leastCommon, leastCommonCount, mostCommonCount - leastCommonCount)
+		leastCommon, leastCommonCount, mostCommonCount-leastCommonCount)
 }
 
 func Part1(lines []string) string {

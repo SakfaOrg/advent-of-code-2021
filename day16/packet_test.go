@@ -11,7 +11,7 @@ func TestDecoder(t *testing.T) {
 		hexString := "D2FE28"
 		for pos := 0; pos < len(hexString); pos++ {
 			given := bitAt(hexString, pos)
-			assert.Equal(t, expected[pos] - '0', given)
+			assert.Equal(t, expected[pos]-'0', given)
 		}
 	})
 
@@ -24,7 +24,7 @@ func TestDecoder(t *testing.T) {
 	})
 
 	t.Run("Test combine chunks", func(t *testing.T) {
-		assert.Equal(t, 2021, combineChunks([]int {7, 14, 5}))
+		assert.Equal(t, 2021, combineChunks([]int{7, 14, 5}))
 	})
 
 	t.Run("Test literal packet", func(t *testing.T) {
@@ -58,11 +58,11 @@ func TestDecoder(t *testing.T) {
 	})
 
 	t.Run("Test nested operator packets", func(t *testing.T) {
-		 hexString := "A0016C880162017C3686B18A3D4780"
-		 packet := decodeTopLevel(hexString)
+		hexString := "A0016C880162017C3686B18A3D4780"
+		packet := decodeTopLevel(hexString)
 
-		 assert.Equal(t, 5, len(packet.subpackets[0].subpackets[0].subpackets))
-		 assert.Equal(t, 31, packet.versionSum())
+		assert.Equal(t, 5, len(packet.subpackets[0].subpackets[0].subpackets))
+		assert.Equal(t, 31, packet.versionSum())
 	})
 
 	t.Run("Test sum packet", func(t *testing.T) {

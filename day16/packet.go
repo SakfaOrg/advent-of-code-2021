@@ -6,21 +6,22 @@ import (
 )
 
 type PacketType uint8
+
 const (
-	SumPacket PacketType = 0
-	ProductPacket  = 1
-	MinimumPacket  = 2
-	MaximumPacket  = 3
-	LiteralPacket = 4
-	GreaterThanPacket  = 5
-	LessThanPacket  = 6
-	EqualToPacket  = 7
+	SumPacket PacketType = iota
+	ProductPacket
+	MinimumPacket
+	MaximumPacket
+	LiteralPacket
+	GreaterThanPacket
+	LessThanPacket
+	EqualToPacket
 )
 
 type Packet struct {
 	packetType PacketType
-	version uint8
-	value int
+	version    uint8
+	value      int
 	subpackets []Packet
 }
 
@@ -91,24 +92,39 @@ func (p Packet) versionSum() int {
 
 // yep, this is fast
 func bitAt(hex string, pos int) uint8 {
-	hexDigit := hex[pos / 4]
+	hexDigit := hex[pos/4]
 	bitPos := pos % 4
 	switch true {
-	case hexDigit == '1' && bitPos == 3: return 1
-	case hexDigit == '2' && bitPos == 2: return 1
-	case hexDigit == '3' && (bitPos == 2 || bitPos == 3): return 1
-	case hexDigit == '4' && bitPos == 1: return 1
-	case hexDigit == '5' && (bitPos == 1 || bitPos == 3): return 1
-	case hexDigit == '6' && (bitPos == 1 || bitPos == 2): return 1
-	case hexDigit == '7' && bitPos != 0: return 1
-	case hexDigit == '8' && bitPos == 0: return 1
-	case hexDigit == '9' && (bitPos == 0 || bitPos == 3): return 1
-	case hexDigit == 'A' && (bitPos == 0 || bitPos == 2): return 1
-	case hexDigit == 'B' && bitPos != 1: return 1
-	case hexDigit == 'C' && (bitPos == 0 || bitPos == 1): return 1
-	case hexDigit == 'D' && bitPos != 2: return 1
-	case hexDigit == 'E' && bitPos != 3: return 1
-	case hexDigit == 'F': return 1
+	case hexDigit == '1' && bitPos == 3:
+		return 1
+	case hexDigit == '2' && bitPos == 2:
+		return 1
+	case hexDigit == '3' && (bitPos == 2 || bitPos == 3):
+		return 1
+	case hexDigit == '4' && bitPos == 1:
+		return 1
+	case hexDigit == '5' && (bitPos == 1 || bitPos == 3):
+		return 1
+	case hexDigit == '6' && (bitPos == 1 || bitPos == 2):
+		return 1
+	case hexDigit == '7' && bitPos != 0:
+		return 1
+	case hexDigit == '8' && bitPos == 0:
+		return 1
+	case hexDigit == '9' && (bitPos == 0 || bitPos == 3):
+		return 1
+	case hexDigit == 'A' && (bitPos == 0 || bitPos == 2):
+		return 1
+	case hexDigit == 'B' && bitPos != 1:
+		return 1
+	case hexDigit == 'C' && (bitPos == 0 || bitPos == 1):
+		return 1
+	case hexDigit == 'D' && bitPos != 2:
+		return 1
+	case hexDigit == 'E' && bitPos != 3:
+		return 1
+	case hexDigit == 'F':
+		return 1
 	default:
 		return 0
 	}
@@ -143,8 +159,8 @@ func decodeTopLevel(hex string) Packet {
 func decodePacket(hex string, pos *int) Packet {
 	type ParserState uint8
 	const (
-		InitState ParserState = 0
-		OperatorState ParserState = 1
+		InitState ParserState = iota
+		OperatorState
 	)
 
 	var version uint8
@@ -196,12 +212,12 @@ func decodePacket(hex string, pos *int) Packet {
 
 			if length == 0 {
 				return Packet{
-					version: version,
+					version:    version,
 					packetType: packetType,
 					subpackets: subpackets,
 				}
 			} else if length < 0 {
-				panic("Too many bits read.");
+				panic("Too many bits read.")
 			}
 		}
 	}
