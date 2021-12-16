@@ -31,7 +31,7 @@ func TestDecoder(t *testing.T) {
 		pos := 0
 		packet := decodePacket("D2FE28", &pos)
 		assert.Equal(t, uint8(6), packet.version)
-		assert.Equal(t, LiteralPacket, packet.packetType)
+		assert.Equal(t, PacketType(LiteralPacket), packet.packetType)
 		assert.Equal(t, 2021, packet.value)
 		assert.Equal(t, 21, pos)
 	})
@@ -40,7 +40,7 @@ func TestDecoder(t *testing.T) {
 		hexString := "38006F45291200"
 		packet := decodeTopLevel(hexString)
 		assert.Equal(t, uint8(1), packet.version)
-		assert.Equal(t, PacketType(6), packet.packetType)
+		assert.Equal(t, PacketType(LessThanPacket), packet.packetType)
 		assert.Equal(t, 2, len(packet.subpackets))
 		assert.Equal(t, 10, packet.subpackets[0].value)
 		assert.Equal(t, 20, packet.subpackets[1].value)

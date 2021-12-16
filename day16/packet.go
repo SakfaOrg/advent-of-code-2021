@@ -89,30 +89,29 @@ func (p Packet) versionSum() int {
 	return result
 }
 
-var hexToBinary = map[uint8]string{
-	'0': "0000",
-	'1': "0001",
-	'2': "0010",
-	'3': "0011",
-	'4': "0100",
-	'5': "0101",
-	'6': "0110",
-	'7': "0111",
-	'8': "1000",
-	'9': "1001",
-	'A': "1010",
-	'B': "1011",
-	'C': "1100",
-	'D': "1101",
-	'E': "1110",
-	'F': "1111",
-}
-
+// yep, this is fast
 func bitAt(hex string, pos int) uint8 {
 	hexDigit := hex[pos / 4]
-	bin := hexToBinary[hexDigit]
-	bit := bin[pos % 4] - '0'
-	return bit
+	bitPos := pos % 4
+	switch true {
+	case hexDigit == '1' && bitPos == 3: return 1
+	case hexDigit == '2' && bitPos == 2: return 1
+	case hexDigit == '3' && (bitPos == 2 || bitPos == 3): return 1
+	case hexDigit == '4' && bitPos == 1: return 1
+	case hexDigit == '5' && (bitPos == 1 || bitPos == 3): return 1
+	case hexDigit == '6' && (bitPos == 1 || bitPos == 2): return 1
+	case hexDigit == '7' && bitPos != 0: return 1
+	case hexDigit == '8' && bitPos == 0: return 1
+	case hexDigit == '9' && (bitPos == 0 || bitPos == 3): return 1
+	case hexDigit == 'A' && (bitPos == 0 || bitPos == 2): return 1
+	case hexDigit == 'B' && bitPos != 1: return 1
+	case hexDigit == 'C' && (bitPos == 0 || bitPos == 1): return 1
+	case hexDigit == 'D' && bitPos != 2: return 1
+	case hexDigit == 'E' && bitPos != 3: return 1
+	case hexDigit == 'F': return 1
+	default:
+		return 0
+	}
 }
 
 func decodeInt(hex string, pos *int, bits int) int {
