@@ -18,11 +18,11 @@ func run(day int, part1 PartRunner, part2 PartRunner) (timeTaken time.Duration) 
 	fmt.Printf("\n%30s DAY %2d %30s\n\n", "", day, "")
 	lines := advent.MustReadLines(fmt.Sprintf("2015/day%d/input", day))
 	timeTaken = time.Duration(0)
-	timeTaken += advent.Timed("part1", func() string {
+	timeTaken += advent.Timed("part1", 0, func() string {
 		return part1(lines)
 	})
 	if part2 != nil {
-		timeTaken += advent.Timed("part2", func() string {
+		timeTaken += advent.Timed("part2", 0, func() string {
 			return part2(lines)
 		})
 	}
