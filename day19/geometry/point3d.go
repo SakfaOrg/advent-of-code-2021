@@ -16,9 +16,9 @@ func (p Point3D) SquaredDistanceTo(other Point3D) int {
 
 func (p Point3D) Minus(other Point3D) Point3D {
 	return Point3D{
-		X: other.X - p.X,
-		Y: other.Y - p.Y,
-		Z: other.Z - p.Z,
+		X: p.X - other.X,
+		Y: p.Y - other.Y,
+		Z: p.Z - other.Z,
 	}
 }
 

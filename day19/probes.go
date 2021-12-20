@@ -35,22 +35,14 @@ func (s Scanner) scannerRotations() []Scanner {
 }
 
 func (s Scanner) moveBy(vector geometry.Point3D) Scanner {
-	return s.moveTo(s.position.Plus(vector))
-}
-
-func (s Scanner) moveTo(destination geometry.Point3D) Scanner {
 	moved := Scanner {
 		id: s.id,
-		position: destination,
+		position: s.position.Plus(vector),
 		seenProbes: make([]geometry.Point3D, len(s.seenProbes)),
 	}
 
 	for idx, probe := range s.seenProbes {
-		moved.seenProbes[idx] = geometry.Point3D{
-			X: probe.X - (destination.X - s.position.X),
-			Y: probe.Y - (destination.Y - s.position.Y),
-			Z: probe.Z - (destination.Z - s.position.Z),
-		}
+		moved.seenProbes[idx] = probe.Minus(vector)
 	}
 	return moved
 }
@@ -140,6 +132,7 @@ func match(scanners []Scanner) []Scanner {
 					if matched != nil {
 						knownList = append(knownList, *matched)
 						knownIds[matched.id] = true
+						fmt.Printf("Scanner %d matched to %d!\n", matched.id, known.id)
 						break KNOWN
 					}
 				}
@@ -152,33 +145,29 @@ func match(scanners []Scanner) []Scanner {
 
 func matchScanners(scanner Scanner, matchee Scanner) *Scanner {
 	for i := 0; i < len(scanner.seenProbes); i++ {
-		for j := 0; j < len(scanner.seenProbes); j++ {
-			if i != j {
-				probeA := scanner.seenProbes[i]
-				probeB := scanner.seenProbes[j]
-				distance := probeA.SquaredDistanceTo(probeB)
+		for j := i + 1; j < len(scanner.seenProbes); j++ {
+			probeA := scanner.seenProbes[i]
+			probeB := scanner.seenProbes[j]
+			distance := probeA.SquaredDistanceTo(probeB)
 
-				for x := 0; x < len(matchee.seenProbes); x++ {
-					for y := 0; y < len(matchee.seenProbes); y++ {
-						if x != y {
-							matcheeA := matchee.seenProbes[x]
-							matcheeB := matchee.seenProbes[y]
-							matcheeDistance := matcheeA.SquaredDistanceTo(matcheeB)
-							if distance == matcheeDistance {
-								for _, rotation := range matchee.scannerRotations() {
-									moved := rotation.moveBy(probeA.Minus(rotation.seenProbes[x]))
-									movedA := moved.seenProbes[x]
-									movedB := moved.seenProbes[y]
+			for x := 0; x < len(matchee.seenProbes); x++ {
+				for y := x + 1; y < len(matchee.seenProbes); y++ {
+					matcheeA := matchee.seenProbes[x]
+					matcheeB := matchee.seenProbes[y]
+					matcheeDistance := matcheeA.SquaredDistanceTo(matcheeB)
+					if distance == matcheeDistance {
+						for _, rotation := range matchee.scannerRotations() {
+							moved := rotation.moveBy(rotation.seenProbes[x].Minus(probeA))
+							movedA := moved.seenProbes[x]
+							movedB := moved.seenProbes[y]
 
-									if movedA != probeA {
-										panic("Uh-oh, we moved points to equal but they don't...")
-									}
-									if movedB == probeB {
-										commonPoints := intersectPoints(scanner.seenProbes, moved.seenProbes)
-										if len(commonPoints) >= 12 {
-											return &moved
-										}
-									}
+							if movedA != probeA {
+								panic("Uh-oh, we moved points to equal but they don't...")
+							}
+							if movedB == probeB {
+								commonPoints := intersectPoints(scanner.seenProbes, moved.seenProbes)
+								if len(commonPoints) >= 12 {
+									return &moved
 								}
 							}
 						}
