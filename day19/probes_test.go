@@ -38,7 +38,7 @@ func TestProbes(t *testing.T) {
 		points := matchedScanners[0].seenProbes
 		fmt.Printf("Probe %d sees %d points\n", matchedScanners[0].id, len(points))
 		for i := 1; i < len(matchedScanners); i++ {
-			points = sumPoints(points, matchedScanners[i].seenProbes)
+			points = geometry.SumPoints(points, matchedScanners[i].seenProbes)
 			fmt.Printf("+ with probe %d we have %d points in total\n", matchedScanners[i].id, len(points))
 		}
 

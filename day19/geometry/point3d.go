@@ -75,3 +75,30 @@ func Rotations3D(p Point3D) []Point3D {
 	}
 }
 
+func SumPoints(listA, listB []Point3D) (result []Point3D) {
+	points := make(map[Point3D]bool)
+	for _, point := range listA {
+		points[point] = true
+	}
+	for _, point := range listB {
+		points[point] = true
+	}
+	for point, _ := range points {
+		result = append(result, point)
+	}
+	return result
+}
+
+func IntersectPoints(listA, listB []Point3D) []Point3D {
+	pointsA := make(map[Point3D]bool)
+	for _, point := range listA {
+		pointsA[point] = true
+	}
+	var result []Point3D
+	for _, point := range listB {
+		if pointsA[point] {
+			result = append(result, point)
+		}
+	}
+	return result
+}
