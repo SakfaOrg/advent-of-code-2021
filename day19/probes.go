@@ -132,7 +132,6 @@ func match(scanners []Scanner) []Scanner {
 					if matched != nil {
 						knownList = append(knownList, *matched)
 						knownIds[matched.id] = true
-						fmt.Printf("Scanner %d matched to %d!\n", matched.id, known.id)
 						break KNOWN
 					}
 				}
@@ -143,30 +142,44 @@ func match(scanners []Scanner) []Scanner {
 	return knownList
 }
 
-func matchScanners(scanner Scanner, matchee Scanner) *Scanner {
-	for i := 0; i < len(scanner.seenProbes); i++ {
-		for j := i + 1; j < len(scanner.seenProbes); j++ {
-			probeA := scanner.seenProbes[i]
-			probeB := scanner.seenProbes[j]
-			distance := probeA.SquaredDistanceTo(probeB)
+func matchScanners(fixed Scanner, other Scanner) *Scanner {
+	// matching algorithm works as follow:
+	//
+	// find some pair of points seen by fixed scanner, we will check ALL possible pairs of points it sees
+	for i := 0; i < len(fixed.seenProbes); i++ {
+		for j := i + 1; j < len(fixed.seenProbes); j++ {
+			fixedA := fixed.seenProbes[i]
+			fixedB := fixed.seenProbes[j]
+			// calculate distance between these 2 points. Why? Because if these 2 points are seen by other scanner
+			// they will be **the same** distance apart. The idea is, moving or rotating scanner doesn't change
+			// relative distances between points
+			distance := fixedA.SquaredDistanceTo(fixedB)
 
-			for x := 0; x < len(matchee.seenProbes); x++ {
-				for y := x + 1; y < len(matchee.seenProbes); y++ {
-					matcheeA := matchee.seenProbes[x]
-					matcheeB := matchee.seenProbes[y]
-					matcheeDistance := matcheeA.SquaredDistanceTo(matcheeB)
-					if distance == matcheeDistance {
-						for _, rotation := range matchee.scannerRotations() {
-							moved := rotation.moveBy(rotation.seenProbes[x].Minus(probeA))
-							movedA := moved.seenProbes[x]
-							movedB := moved.seenProbes[y]
+			// now check all point pairs in other scanner, we're looking for 2 points that are distance apart of each other
+			for x := 0; x < len(other.seenProbes); x++ {
+				for y := x + 1; y < len(other.seenProbes); y++ {
+					matcheeDistance := other.seenProbes[x].SquaredDistanceTo(other.seenProbes[y])
+					if distance == matcheeDistance { // gotcha!
+						// so now we will align that other scanner: since we don't know it's exact orientation we will
+						// check all 24 of possible rations
+						for _, rotation := range other.scannerRotations() {
+							// how to check scanners match? Grab 2 points from the pair. Move scanner in such a
+							// way that 1 of that points will align with one of the points from fixed scanner.
+							// did other point align as well? Then it seems we have a potential match!
+							moveVector := rotation.seenProbes[x].Minus(fixedA)
+							movedA := rotation.seenProbes[x].Minus(moveVector)
+							movedB := rotation.seenProbes[y].Minus(moveVector)
 
-							if movedA != probeA {
+							if movedA != fixedA { // just a sanity check
 								panic("Uh-oh, we moved points to equal but they don't...")
 							}
-							if movedB == probeB {
-								commonPoints := intersectPoints(scanner.seenProbes, moved.seenProbes)
-								if len(commonPoints) >= 12 {
+							if movedB == fixedB { // gotcha! We know found a pair of points that in this specific position
+												  // and rotation of scanner is seen in the same coordinates relative to
+												  // scanner 0
+								// the final step is to move ALL points and see how many of them are the same.
+								moved := rotation.moveBy(moveVector)
+								commonPoints := intersectPoints(fixed.seenProbes, moved.seenProbes)
+								if len(commonPoints) >= 12 { // if 12 we've got a match! (according to puzzle authors at least 12 points will overlap)
 									return &moved
 								}
 							}
