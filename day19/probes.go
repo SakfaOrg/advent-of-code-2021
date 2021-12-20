@@ -12,6 +12,12 @@ type Scanner struct {
 	id int
 	position geometry.Point3D
 	seenProbes []geometry.Point3D
+	// maintain a set of all distances between points. Why? This allows us to optimize a lot: if
+	// scanner sees some set of points which will be in some distance from each other, then if other scanner sees the
+	// same set of points it will see overlapping 1+2+3+...+n same distances. This happens regardless of orientation!
+	// so by quickly checking how many same distances we see, if there's less than 66 we know that scanners definitely
+	// don't see set of same 12 points! (66 = 1+2+3+...+9+10+11)
+	distances *map[int]int
 }
 
 func (s Scanner) scannerRotations() []Scanner {
@@ -21,6 +27,7 @@ func (s Scanner) scannerRotations() []Scanner {
 			id: s.id,
 			position: s.position,
 			seenProbes: make([]geometry.Point3D, len(s.seenProbes)),
+			distances: s.distances,
 		}
 	}
 
@@ -39,6 +46,7 @@ func (s Scanner) moveBy(vector geometry.Point3D) Scanner {
 		id: s.id,
 		position: s.position.Plus(vector),
 		seenProbes: make([]geometry.Point3D, len(s.seenProbes)),
+		distances: s.distances,
 	}
 
 	for idx, probe := range s.seenProbes {
@@ -85,6 +93,15 @@ func readScannerFrom(lines []string, startPos int) (scanner Scanner, pos int) {
 		})
 	}
 
+	distancesMap := make(map[int]int)
+	for i := 0; i < len(scanner.seenProbes); i++ {
+		for j := i + 1; j < len(scanner.seenProbes); j++ {
+			distance := scanner.seenProbes[i].SquaredDistanceTo(scanner.seenProbes[j])
+			distancesMap[distance] += 1
+		}
+	}
+	scanner.distances = &distancesMap
+
 	if pos < len(lines) {
 		pos += 1
 	}
@@ -92,12 +109,24 @@ func readScannerFrom(lines []string, startPos int) (scanner Scanner, pos int) {
 	return
 }
 
+type Pair struct {left, right int}
+func (p Pair) normalize() Pair {
+	if p.left > p.right {
+		return Pair{p.right, p.left}
+	}
+	return p
+}
+
 func match(scanners []Scanner) []Scanner {
-	// we will do a lot of matching of scanners, we can pre-calculate rotations to make this slightly faster (shaves ~20 millis)
+	// we will do a lot of matching of scanners, we can pre-calculate rotations to make this slightly faster
 	scannerToRotations := make(map[int][]Scanner)
 	for i := 1; i < len(scanners); i++ {
 		scannerToRotations[scanners[i].id] = scanners[i].scannerRotations()
 	}
+
+	// because of how we loop over known,left pairs all the time it may happen that we will try to match scanner in
+	// next iteration that we already checked in previous. Remember which pairs we checked already
+	pairsThatDontMatch := make(map[Pair]bool)
 
 	knownIds := make(map[int]bool)
 	knownList := []Scanner { scanners[0] }
@@ -108,12 +137,16 @@ func match(scanners []Scanner) []Scanner {
 		KNOWN: for _, knownCandidate := range knownList {
 			for _, leftCandidate := range leftList {
 				if _, ok := knownIds[leftCandidate.id]; !ok {
-					matched := matchScanners(knownCandidate, leftCandidate, scannerToRotations[leftCandidate.id])
-					if matched != nil {
-						fmt.Printf("Matched %d to %d\n", leftCandidate.id, knownCandidate.id)
-						knownList = append(knownList, *matched)
-						knownIds[matched.id] = true
-						break KNOWN
+					checkedPair := Pair{knownCandidate.id, leftCandidate.id}.normalize()
+					if _, dontMatch := pairsThatDontMatch[checkedPair]; !dontMatch {
+						matched := matchScanners(knownCandidate, leftCandidate, scannerToRotations[leftCandidate.id])
+						if matched != nil {
+							knownList = append(knownList, *matched)
+							knownIds[matched.id] = true
+							break KNOWN
+						} else {
+							pairsThatDontMatch[checkedPair] = true
+						}
 					}
 				}
 			}
@@ -122,7 +155,30 @@ func match(scanners []Scanner) []Scanner {
 	return knownList
 }
 
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+func countSameDistances(s1, s2 Scanner) int {
+	result := 0
+	for distance, count := range *s1.distances {
+		if otherCount, ok := (*s2.distances)[distance]; ok {
+			result += min(count, otherCount)
+		}
+	}
+	return result
+}
+
 func matchScanners(fixed Scanner, other Scanner, otherRotations []Scanner) *Scanner {
+	// if these scanner saw the same set of 12 points they would see set of same 66 (1+2+...+10+11) pairs of points that
+	// are some distance apart from each other. No 66 same distances? Then clearly these don't match.
+	if countSameDistances(fixed, other) < 66 {
+		return nil
+	}
+
 	// matching algorithm works as follow:
 	//
 	// find some pair of points seen by fixed scanner, we will check ALL possible pairs of points it sees
@@ -168,9 +224,7 @@ func matchScanners(fixed Scanner, other Scanner, otherRotations []Scanner) *Scan
 	return nil
 }
 
-var part1Solution *[]Scanner
-
-func Part1(lines []string) string {
+func solve(lines []string) []Scanner {
 	var scanners []Scanner
 	for pos := 0; pos < len(lines); {
 		var scanner Scanner
@@ -178,8 +232,12 @@ func Part1(lines []string) string {
 		scanners = append(scanners, scanner)
 	}
 
-	matchedScanners := match(scanners)
-	part1Solution = &matchedScanners
+	return match(scanners)
+}
+
+func Part1(lines []string) string {
+	matchedScanners := solve(lines)
+
 	points := matchedScanners[0].seenProbes
 	for i := 1; i < len(matchedScanners); i++ {
 		points = geometry.SumPoints(points, matchedScanners[i].seenProbes)
@@ -189,28 +247,7 @@ func Part1(lines []string) string {
 }
 
 func Part2(lines []string) string {
-	var matchedScanners []Scanner
-	var message string
-
-	if part1Solution != nil {
-		message = "(reused part1 solution)"
-		matchedScanners = *part1Solution
-	} else {
-		message = "(computed from scratch)"
-		var scanners []Scanner
-		for pos := 0; pos < len(lines); {
-			var scanner Scanner
-			scanner, pos = readScannerFrom(lines, pos)
-			scanners = append(scanners, scanner)
-		}
-
-		matchedScanners = match(scanners)
-	}
-
-	points := matchedScanners[0].seenProbes
-	for i := 1; i < len(matchedScanners); i++ {
-		points = geometry.SumPoints(points, matchedScanners[i].seenProbes)
-	}
+	matchedScanners := solve(lines)
 
 	maxDistance := 0
 	for i := 0; i < len(matchedScanners); i++ {
@@ -222,5 +259,5 @@ func Part2(lines []string) string {
 		}
 	}
 
-	return fmt.Sprintf("Furthest scanners are %d apart %s\n", maxDistance, message)
+	return fmt.Sprintf("Furthest scanners are %d apart\n", maxDistance)
 }
