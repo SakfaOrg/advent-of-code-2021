@@ -16,7 +16,7 @@ func Timed(name string, warmRetries int, code func() string) (timeTaken time.Dur
 		for i := 0; i < tries; i++ {
 			retry := code()
 			if retry != result {
-				fmt.Printf("First result:\n%s\n%d th try:\n%s\n", result, retry)
+				fmt.Printf("First result:\n%s\n%d th try:\n%s\n", result, i, retry)
 				panic("Code doesn't give stable results! See above")
 			}
 		}
