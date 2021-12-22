@@ -11,9 +11,9 @@ func isVowel(r uint8) bool {
 
 func isNaughtySubstring(letter uint8, next uint8) bool {
 	if (letter == 'a' && next == 'b') ||
-       (letter == 'c' && next == 'd') ||
-       (letter == 'p' && next == 'q') ||
-       (letter == 'x' && next == 'y') {
+		(letter == 'c' && next == 'd') ||
+		(letter == 'p' && next == 'q') ||
+		(letter == 'x' && next == 'y') {
 		return true
 	}
 	return false
@@ -21,9 +21,9 @@ func isNaughtySubstring(letter uint8, next uint8) bool {
 
 func isNicePart2(s string) bool {
 	ok := false
-	for i := 0; i < len(s) - 3; i++ {
-		pair := s[i:i+2]
-		if (strings.Contains(s[i+2:], pair)) {
+	for i := 0; i < len(s)-3; i++ {
+		pair := s[i : i+2]
+		if strings.Contains(s[i+2:], pair) {
 			ok = true
 			break
 		}
@@ -32,8 +32,8 @@ func isNicePart2(s string) bool {
 		return false
 	}
 
-	for i := 0; i < len(s) - 2; i++ {
-		if s[i] == s[i + 2] {
+	for i := 0; i < len(s)-2; i++ {
+		if s[i] == s[i+2] {
 			return true
 		}
 	}
@@ -44,19 +44,19 @@ func isNicePart2(s string) bool {
 func isNice(s string) bool {
 	vowels := 0
 	hadDuplicatedLetter := false
-	for i := 0; i < len(s) - 1; i++ {
+	for i := 0; i < len(s)-1; i++ {
 		letter := s[i]
 		if isVowel(letter) {
 			vowels++
 		}
-		if s[i] == s[i + 1] {
+		if s[i] == s[i+1] {
 			hadDuplicatedLetter = true
 		}
-		if isNaughtySubstring(s[i], s[i + 1]) {
+		if isNaughtySubstring(s[i], s[i+1]) {
 			return false
 		}
 	}
-	if isVowel(s[len(s) - 1]) {
+	if isVowel(s[len(s)-1]) {
 		vowels++
 	}
 
@@ -72,7 +72,7 @@ func solve(lines []string, checker NiceChecker) string {
 			nice++
 		}
 	}
-	return fmt.Sprintf("Nice strings: %d", nice);
+	return fmt.Sprintf("Nice strings: %d", nice)
 }
 
 func Part1(lines []string) string {

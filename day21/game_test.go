@@ -22,7 +22,7 @@ func TestGame(t *testing.T) {
 	})
 
 	t.Run("test part1 demo", func(t *testing.T) {
-		result := Part1([]string {
+		result := Part1([]string{
 			"Player 1 starting position: 4",
 			"Player 2 starting position: 8",
 		})
@@ -30,7 +30,7 @@ func TestGame(t *testing.T) {
 	})
 
 	t.Run("test part2 demo", func(t *testing.T) {
-		result := Part2([]string {
+		result := Part2([]string{
 			"Player 1 starting position: 4",
 			"Player 2 starting position: 8",
 		})

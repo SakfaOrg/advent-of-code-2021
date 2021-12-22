@@ -118,7 +118,7 @@ func TestSnailfishNumbers(t *testing.T) {
 	})
 
 	t.Run("Test add many", func(t *testing.T) {
-		lines := []string { "[1,1]", "[2,2]", "[3,3]", "[4,4]", "[5,5]", "[6,6]" }
+		lines := []string{"[1,1]", "[2,2]", "[3,3]", "[4,4]", "[5,5]", "[6,6]"}
 		result := addLines(lines)
 		assertLinks(result)
 		assert.Equal(t, "[[[[5,0],[7,4]],[5,5]],[6,6]]", result.String())
@@ -133,7 +133,7 @@ func TestSnailfishNumbers(t *testing.T) {
 	})
 
 	t.Run("Test demo input", func(t *testing.T) {
-		lines := []string {
+		lines := []string{
 			"[[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]]",
 			"[7,[[[3,7],[4,3]],[[6,3],[8,8]]]]",
 			"[[2,[[0,8],[3,4]]],[[[6,7],1],[7,[1,6]]]]",
@@ -151,7 +151,7 @@ func TestSnailfishNumbers(t *testing.T) {
 		assert.Equal(t, 3488, result.magnitude())
 	})
 
-	demoLines := []string {
+	demoLines := []string{
 		"[[[0,[5,8]],[[1,7],[9,6]]],[[4,[1,2]],[[1,4],2]]]",
 		"[[[5,[2,8]],4],[5,[[9,9],0]]]",
 		"[6,[[[6,2],[5,6]],[[7,6],[4,7]]]]",

@@ -2,10 +2,10 @@ package advent_2015_day3
 
 import "fmt"
 
-type Point struct{x,y int}
+type Point struct{ x, y int }
 
 func move(point *Point, step rune) {
-	switch (step) {
+	switch step {
 	case '>':
 		point.x++
 	case '<':
@@ -32,7 +32,6 @@ func solve(instructions string) int {
 	return len(visited)
 }
 
-
 func solveWithRoboSanta(instructions string) int {
 	visited := make(map[Point]int)
 	santa := Point{0, 0}
@@ -40,7 +39,7 @@ func solveWithRoboSanta(instructions string) int {
 	visited[santa] = 1
 
 	for idx, step := range instructions {
-		if idx % 2 == 0 {
+		if idx%2 == 0 {
 			move(&santa, step)
 			visited[santa]++
 		} else {

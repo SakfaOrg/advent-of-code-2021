@@ -6,13 +6,14 @@ import (
 )
 
 type PixelMap string
+
 func (pm *PixelMap) pixel(idx int) uint8 {
 	return (*pm)[idx]
 }
 
 type Image struct {
 	horizonPixel uint8
-	pixels [][]uint8
+	pixels       [][]uint8
 }
 
 func (i Image) definedHeight() int {
@@ -22,7 +23,6 @@ func (i Image) definedHeight() int {
 func (i Image) definedWidth() int {
 	return len(i.pixels[0])
 }
-
 
 func (i Image) String() string {
 	var lines []string
@@ -50,7 +50,7 @@ func (i Image) pixelAt(row, col int) uint8 {
 func NewImageFromLines(lines []string) *Image {
 	newImage := Image{
 		horizonPixel: '.',
-		pixels: make([][]uint8, len(lines)),
+		pixels:       make([][]uint8, len(lines)),
 	}
 	for i := 0; i < len(lines); i++ {
 		newImage.pixels[i] = make([]uint8, len(lines[i]))
@@ -63,9 +63,9 @@ func NewImageFromLines(lines []string) *Image {
 
 func square() [][]int {
 	return [][]int{
-		{-1,-1}, {-1,0}, {-1,1},
-		{ 0,-1}, { 0,0}, { 0,1},
-		{ 1,-1}, { 1,0}, { 1,1},
+		{-1, -1}, {-1, 0}, {-1, 1},
+		{0, -1}, {0, 0}, {0, 1},
+		{1, -1}, {1, 0}, {1, 1},
 	}
 }
 
@@ -100,7 +100,7 @@ func (i *Image) enhance(pixelMap PixelMap) *Image {
 
 	return &Image{
 		horizonPixel: newHorizonPixel,
-		pixels: newPixels,
+		pixels:       newPixels,
 	}
 }
 

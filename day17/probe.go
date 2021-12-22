@@ -8,7 +8,7 @@ import (
 
 type Range struct {
 	from int
-	to int
+	to   int
 }
 
 func findAll(xr, yr Range) int {
@@ -35,10 +35,10 @@ func findAll(xr, yr Range) int {
 }
 
 func calcTarget(x, y, step int) (targetX, targetY int) {
-	targetX = (((1+x)*x)/2)
+	targetX = (((1 + x) * x) / 2)
 	left := x - step
 	if left > 0 {
-		targetX -= ((1+left))*left/2
+		targetX -= (1 + left) * left / 2
 	}
 	targetY = (y + y - step + 1) * step / 2
 	return
@@ -58,24 +58,24 @@ func solve(xr, yr Range) string {
 		}
 	}
 
-	type shot struct{x,y,step int}
-	highestShot := shot{0,0,0}
+	type shot struct{ x, y, step int }
+	highestShot := shot{0, 0, 0}
 	for _, x := range xs {
 		// now note that x is both starting velocity and also minimum amount of steps after which we achieve vertical fall
 		// for each x let's check bunch of y. Just as we assumed that the valid solution will end with vertical fall, I'm
 		// assuming that it will end up with y > 0
-		for y := 1; y <= -1 * yr.from ; y++ { // check at most until yr.from, any y higher than that and we will overshoot target after first step since 0
+		for y := 1; y <= -1*yr.from; y++ { // check at most until yr.from, any y higher than that and we will overshoot target after first step since 0
 			// y always starts to go up, then evetually it starts to fall and at some point will get back to position 0
 			// (why? becuse it starts with i.e., 1,0,-1,...  or 2,1,0,-1,-2,..., you get the drill first few steps cancel
 			// each other). We will have to do _at least_ that amount of steps, assuming the target is negative (it is
 			// in the puzzle input)
-			minimumSteps := y * 2 + 1
+			minimumSteps := y*2 + 1
 
 			// now that we know minimum amount of steps we can see if we will land in
 			reachedTarget := false
 			reachedTargetStep := 0
 			for step := minimumSteps + 1; ; step++ {
-				targetX, targetY := calcTarget(x,y,step)
+				targetX, targetY := calcTarget(x, y, step)
 				if targetX >= xr.from && targetX <= xr.to && targetY >= yr.from && targetY <= yr.to {
 					reachedTarget = true
 					reachedTargetStep = step
@@ -88,14 +88,14 @@ func solve(xr, yr Range) string {
 
 			if reachedTarget {
 				if y > highestShot.y {
-					highestShot = shot{x,y,reachedTargetStep}
+					highestShot = shot{x, y, reachedTargetStep}
 				}
 			}
 		}
 	}
 
 	return fmt.Sprintf("Highest shot x=%d,y=%d reaches target after %d steps with y high=%d",
-		highestShot.x, highestShot.y, highestShot.step, ((1+highestShot.y) * highestShot.y) / 2)
+		highestShot.x, highestShot.y, highestShot.step, ((1+highestShot.y)*highestShot.y)/2)
 }
 
 func parseInput(lines []string) (xRange, yRange Range) {

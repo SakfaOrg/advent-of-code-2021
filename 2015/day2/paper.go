@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-type Box struct{l,w,h int}
+type Box struct{ l, w, h int }
 
 func min(a, b, c int) int {
 	if a < b && a < c {
@@ -34,13 +34,13 @@ func paperNeeded(box Box) int {
 	b := box.w * box.h
 	c := box.h * box.l
 	s := min(a, b, c)
-	return 2*(a + b + c) + s
+	return 2*(a+b+c) + s
 }
 
 func ribbonNeeded(box Box) int {
-   dims := []int{box.w, box.h, box.l}
-   sort.Ints(dims)
-   return 2 * (dims[0] + dims[1]) + box.w * box.h * box.l
+	dims := []int{box.w, box.h, box.l}
+	sort.Ints(dims)
+	return 2*(dims[0]+dims[1]) + box.w*box.h*box.l
 }
 
 type calcFunc func(Box) int

@@ -5,10 +5,10 @@ import (
 )
 
 type SnailfishNumber struct {
-	value                 	  int
-	leftChild, rightChild 	  *SnailfishNumber
+	value                     int
+	leftChild, rightChild     *SnailfishNumber
 	leftSibling, rightSibling *SnailfishNumber
-	parent					  *SnailfishNumber
+	parent                    *SnailfishNumber
 }
 
 func (s SnailfishNumber) isPair() bool {
@@ -33,7 +33,7 @@ func (s SnailfishNumber) magnitude() int {
 
 func add(a, b *SnailfishNumber) *SnailfishNumber {
 	sum := &SnailfishNumber{
-		leftChild: a,
+		leftChild:  a,
 		rightChild: b,
 	}
 	a.parent = sum
@@ -69,36 +69,36 @@ func parse(number string) *SnailfishNumber {
 	var lastLiteral *SnailfishNumber
 	for i := 0; i < len(number); i++ {
 		chr := number[i]
-		switch (chr) {
+		switch chr {
 		case '[':
 			newPair := &SnailfishNumber{}
 			if len(stack) > 0 {
-				newPair.parent = stack[len(stack) - 1]
+				newPair.parent = stack[len(stack)-1]
 			}
 			stack = append(stack, newPair)
 		case ']':
-			rightOperand := stack[len(stack) - 1]
-			stack = stack[:len(stack) - 1]
+			rightOperand := stack[len(stack)-1]
+			stack = stack[:len(stack)-1]
 
-			stack[len(stack) - 1].rightChild = rightOperand
+			stack[len(stack)-1].rightChild = rightOperand
 		case ',':
-			leftOperand := stack[len(stack) - 1]
-			stack = stack[:len(stack) - 1]
+			leftOperand := stack[len(stack)-1]
+			stack = stack[:len(stack)-1]
 
-			stack[len(stack) - 1].leftChild = leftOperand
+			stack[len(stack)-1].leftChild = leftOperand
 		default:
 			if !(chr >= '0' && chr <= '9') {
 				panic("Unexpected symbol, expected one of [], or digit but got " + string(chr))
 			}
 
 			digit := int(chr - '0')
-			top := stack[len(stack) - 1]
+			top := stack[len(stack)-1]
 			if top.value > 0 {
 				top.value = top.value*10 + digit
 			} else {
 				newLiteral := &SnailfishNumber{
-					value: digit,
-					parent: stack[len(stack) - 1],
+					value:  digit,
+					parent: stack[len(stack)-1],
 				}
 
 				if lastLiteral != nil {
@@ -119,7 +119,7 @@ func parse(number string) *SnailfishNumber {
 }
 
 func reduce(number *SnailfishNumber) {
-	for didSomething := true ; didSomething ; {
+	for didSomething := true; didSomething; {
 		didSomething = explodeWalk(0, number) || splitWalk(number)
 	}
 }
@@ -127,7 +127,7 @@ func reduce(number *SnailfishNumber) {
 func explodeNumber(number *SnailfishNumber) {
 	// prepare number that will replace us: value 0, same parent
 	replacement := &SnailfishNumber{
-		value: 0,
+		value:  0,
 		parent: number.parent,
 	}
 
@@ -167,7 +167,7 @@ func splitNumber(number *SnailfishNumber) {
 	rightChild := &SnailfishNumber{ // right is number divided by 2...
 		value: number.value / 2,
 	}
-	if number.value % 2 == 1 { // ...rounded up
+	if number.value%2 == 1 { // ...rounded up
 		rightChild.value += 1
 	}
 
@@ -184,9 +184,9 @@ func splitNumber(number *SnailfishNumber) {
 	}
 
 	replacement := &SnailfishNumber{
-		leftChild: leftChild,
+		leftChild:  leftChild,
 		rightChild: rightChild,
-		parent: number.parent,
+		parent:     number.parent,
 	}
 
 	// and set correct parent on children

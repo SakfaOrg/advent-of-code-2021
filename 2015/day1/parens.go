@@ -13,7 +13,7 @@ func Part1(lines []string) string {
 		}
 	}
 
-	return fmt.Sprintf("Floor = %d", opens - closes)
+	return fmt.Sprintf("Floor = %d", opens-closes)
 }
 
 func Part2(lines []string) string {
@@ -25,7 +25,7 @@ func Part2(lines []string) string {
 			floor--
 		}
 		if floor < 0 {
-			return fmt.Sprintf("Basement entered at %d", idx + 1)
+			return fmt.Sprintf("Basement entered at %d", idx+1)
 		}
 	}
 

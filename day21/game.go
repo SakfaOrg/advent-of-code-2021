@@ -30,9 +30,9 @@ type CompactPlayer struct {
 
 func (p Player) compact() CompactPlayer {
 	return CompactPlayer{
-		number: uint8(p.number),
+		number:   uint8(p.number),
 		position: uint8(p.position),
-		score: uint8(p.score),
+		score:    uint8(p.score),
 	}
 }
 
@@ -57,25 +57,25 @@ func (d *DeterministicDie) roll() int {
 func parsePlayer(line string) Player {
 	segments := strings.Split(line, " ")
 	return Player{
-		number: advent.MustAtoi(segments[1]),
-		position: advent.MustAtoi(segments[len(segments) - 1]),
-		score: 0,
+		number:   advent.MustAtoi(segments[1]),
+		position: advent.MustAtoi(segments[len(segments)-1]),
+		score:    0,
 	}
 }
 
 func makeMove(die Die, player *Player, winningScore int) (won bool) {
-	return applyRoll(die.roll() + die.roll() + die.roll(), player, winningScore)
+	return applyRoll(die.roll()+die.roll()+die.roll(), player, winningScore)
 }
 
 func applyRoll(rolled int, player *Player, winningScore int) (won bool) {
-	nextPosition := (player.position - 1 + rolled) % 10 + 1
+	nextPosition := (player.position-1+rolled)%10 + 1
 	player.position = nextPosition
 	player.score += player.position
 	return player.score >= winningScore
 }
 
 func applyRollCompact(rolled uint8, player *CompactPlayer, winningScore uint8) (won bool) {
-	nextPosition := (player.position - 1 + rolled) % 10 + 1
+	nextPosition := (player.position-1+rolled)%10 + 1
 	player.position = nextPosition
 	player.score += player.position
 	return player.score >= winningScore
@@ -170,5 +170,5 @@ func Part1(lines []string) string {
 	}
 
 	return fmt.Sprintf("Loser score %d, rolls %d, result = %d", loser.score, die.(*DeterministicDie).rolls,
-		loser.score * die.(*DeterministicDie).rolls)
+		loser.score*die.(*DeterministicDie).rolls)
 }

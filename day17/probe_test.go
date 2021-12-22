@@ -21,6 +21,3 @@ func TestRange(t *testing.T) {
 		assert.Equal(t, 112, result)
 	})
 }
-
-
-

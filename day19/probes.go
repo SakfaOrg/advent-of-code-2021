@@ -24,10 +24,10 @@ func (s Scanner) scannerRotations() []Scanner {
 	rotatedScanners := make([]Scanner, 24)
 	for i := 0; i < 24; i++ {
 		rotatedScanners[i] = Scanner{
-			id: s.id,
-			position: s.position,
+			id:         s.id,
+			position:   s.position,
 			seenProbes: make([]geometry.Point3D, len(s.seenProbes)),
-			distances: s.distances,
+			distances:  s.distances,
 		}
 	}
 
@@ -42,11 +42,11 @@ func (s Scanner) scannerRotations() []Scanner {
 }
 
 func (s Scanner) moveBy(vector geometry.Point3D) Scanner {
-	moved := Scanner {
-		id: s.id,
-		position: s.position.Plus(vector),
+	moved := Scanner{
+		id:         s.id,
+		position:   s.position.Plus(vector),
 		seenProbes: make([]geometry.Point3D, len(s.seenProbes)),
-		distances: s.distances,
+		distances:  s.distances,
 	}
 
 	for idx, probe := range s.seenProbes {
@@ -55,10 +55,8 @@ func (s Scanner) moveBy(vector geometry.Point3D) Scanner {
 	return moved
 }
 
-
-
 func (s Scanner) String() string {
-	lines := []string {
+	lines := []string{
 		fmt.Sprintf("--- scanner %02d (at %s)---", s.id, s.position),
 	}
 	for _, probe := range s.seenProbes {
@@ -109,7 +107,8 @@ func readScannerFrom(lines []string, startPos int) (scanner Scanner, pos int) {
 	return
 }
 
-type Pair struct {left, right int}
+type Pair struct{ left, right int }
+
 func (p Pair) normalize() Pair {
 	if p.left > p.right {
 		return Pair{p.right, p.left}
@@ -129,12 +128,13 @@ func match(scanners []Scanner) []Scanner {
 	pairsThatDontMatch := make(map[Pair]bool)
 
 	knownIds := make(map[int]bool)
-	knownList := []Scanner { scanners[0] }
+	knownList := []Scanner{scanners[0]}
 	knownIds[scanners[0].id] = true
 
 	leftList := scanners[1:]
 	for len(knownList) != len(scanners) {
-		KNOWN: for _, knownCandidate := range knownList {
+	KNOWN:
+		for _, knownCandidate := range knownList {
 			for _, leftCandidate := range leftList {
 				if _, ok := knownIds[leftCandidate.id]; !ok {
 					checkedPair := Pair{knownCandidate.id, leftCandidate.id}.normalize()
@@ -206,8 +206,8 @@ func matchScanners(fixed Scanner, other Scanner, otherRotations []Scanner) *Scan
 							movedB := rotation.seenProbes[y].Minus(moveVector)
 
 							if movedB == fixedB { // gotcha! We now found a pair of points that in this specific position
-												  // and rotation of scanner is seen in the same coordinates relative to
-												  // scanner 0
+								// and rotation of scanner is seen in the same coordinates relative to
+								// scanner 0
 								// the final step is to move ALL points and see how many of them are the same.
 								moved := rotation.moveBy(moveVector)
 								commonPoints := geometry.IntersectPoints(fixed.seenProbes, moved.seenProbes)

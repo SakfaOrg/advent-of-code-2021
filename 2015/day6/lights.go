@@ -17,7 +17,7 @@ func (a Action) apply(i *int) {
 	case Toggle:
 		if *i == 1 {
 			*i = 0
-		}  else {
+		} else {
 			*i = 1
 		}
 	}
@@ -43,10 +43,10 @@ const (
 	Toggle
 )
 
-type Point struct {x,y int}
-type Rect struct {topLeft, bottomRight Point}
+type Point struct{ x, y int }
+type Rect struct{ topLeft, bottomRight Point }
 type Instruction struct {
-	rect Rect
+	rect   Rect
 	action Action
 }
 
@@ -132,12 +132,12 @@ func parseInput(lines []string) (result []Instruction) {
 	return result
 }
 
-func Part1(lines[] string) string {
+func Part1(lines []string) string {
 	instructions := parseInput(lines)
-	return fmt.Sprintf("Lights lit = %d", solve(Rect{Point{0,0},Point{1000,1000}}, instructions))
+	return fmt.Sprintf("Lights lit = %d", solve(Rect{Point{0, 0}, Point{1000, 1000}}, instructions))
 }
 
-func Part2(lines[] string) string {
+func Part2(lines []string) string {
 	instructions := parseInput(lines)
-	return fmt.Sprintf("Lights brightness = %d", solvePart2(Rect{Point{0,0},Point{1000,1000}}, instructions))
+	return fmt.Sprintf("Lights brightness = %d", solvePart2(Rect{Point{0, 0}, Point{1000, 1000}}, instructions))
 }

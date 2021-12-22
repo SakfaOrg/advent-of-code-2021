@@ -7,7 +7,7 @@ import (
 )
 
 func collectCombinations(total int, containers []int) [][]int {
-	return collectCombinationsInner(total, []int {}, containers)
+	return collectCombinationsInner(total, []int{}, containers)
 }
 
 func collectCombinationsInner(total int, usedSoFar []int, containers []int) [][]int {
@@ -22,7 +22,7 @@ func collectCombinationsInner(total int, usedSoFar []int, containers []int) [][]
 			if left == 0 {
 				result = append(result, used)
 			} else {
-				result = append(result, collectCombinationsInner(total - container, used, containers[idx + 1:])...)
+				result = append(result, collectCombinationsInner(total-container, used, containers[idx+1:])...)
 			}
 		}
 	}
@@ -30,7 +30,7 @@ func collectCombinationsInner(total int, usedSoFar []int, containers []int) [][]
 	return result
 }
 
-func filterSmallest(combinations[][]int) [][]int {
+func filterSmallest(combinations [][]int) [][]int {
 	shortestLength := math.MaxInt
 	for i := 0; i < len(combinations); i++ {
 		if len(combinations[i]) < shortestLength {
@@ -54,7 +54,7 @@ func countCombinations(total int, containers []int) int {
 		if container == total {
 			result += 1
 		} else if total > container {
-			result += countCombinations(total - container, containers[idx + 1:])
+			result += countCombinations(total-container, containers[idx+1:])
 		}
 	}
 
@@ -75,7 +75,7 @@ func Part1(lines []string) string {
 	return fmt.Sprintf("Number of ways to fit 150 of eggnog: %d", countCombinations(150, containers))
 }
 
-func Part2(lines[] string) string {
+func Part2(lines []string) string {
 	containers := parseContainers(lines)
 
 	smallest := filterSmallest(collectCombinations(150, containers))

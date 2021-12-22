@@ -8,6 +8,7 @@ import (
 )
 
 type Action uint8
+
 const (
 	ActionOff Action = iota
 	ActionOn
@@ -29,7 +30,7 @@ type Cube struct {
 }
 
 func (c Cube) normalize() Cube {
-	return Cube {
+	return Cube{
 		xRange: c.xRange.normalize(),
 		yRange: c.yRange.normalize(),
 		zRange: c.zRange.normalize(),
@@ -48,7 +49,7 @@ func parseRange(str string) Range {
 	split := strings.Split(strings.Split(str, "=")[1], "..")
 	return Range{
 		from: advent.MustAtoi(split[0]),
-		to: advent.MustAtoi(split[1]),
+		to:   advent.MustAtoi(split[1]),
 	}
 }
 
@@ -85,9 +86,10 @@ func max(a, b int) int {
 }
 
 type CoordSet map[int]bool
+
 func (cs CoordSet) add(r Range) {
 	cs[r.from] = true
-	cs[r.to + 1] = true
+	cs[r.to+1] = true
 }
 func (cs CoordSet) uniqueAndSorted() []int {
 	var result []int
@@ -138,7 +140,7 @@ func Part2(lines []string) string {
 				for zi := idxOf(zs, cube.zRange.from); zs[zi] <= cube.zRange.to; zi++ {
 					counter++
 					space[xi][yi][zi] = line[0:2] == "on"
-				}				
+				}
 			}
 		}
 		//fmt.Printf("Matching cube %s: mutated %d spaces.\n", cube, counter)
@@ -149,9 +151,9 @@ func Part2(lines []string) string {
 		for y := 0; y < len(ys); y++ {
 			for z := 0; z < len(zs); z++ {
 				if space[x][y][z] {
-					w := xs[x + 1] - xs[x]
-					h := ys[y + 1] - ys[y]
-					d := zs[z + 1] - zs[z]
+					w := xs[x+1] - xs[x]
+					h := ys[y+1] - ys[y]
+					d := zs[z+1] - zs[z]
 					//fmt.Printf("Space %d..%d, %d..%d, %d..%d, volume=%d*%d*%d=%d\n", xs[x], xs[x+1]-1, ys[y], ys[y+1]-1, zs[z], zs[z+1]-1,
 					//	w,h,d,w*h*d)
 					onCounter += w * h * d
@@ -170,7 +172,7 @@ func Part1(lines []string) string {
 		for x := max(cube.xRange.normalize().from, -50); x <= min(cube.xRange.normalize().to, 50); x++ {
 			for y := max(cube.yRange.normalize().from, -50); y <= min(cube.yRange.normalize().to, 50); y++ {
 				for z := max(cube.zRange.normalize().from, -50); z <= min(cube.zRange.normalize().to, 50); z++ {
-					pixels[x + 50][y + 50][z + 50] = line[0:2] == "on"
+					pixels[x+50][y+50][z+50] = line[0:2] == "on"
 				}
 			}
 		}

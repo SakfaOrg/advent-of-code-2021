@@ -11,7 +11,7 @@ func (p Point3D) String() string {
 }
 
 func (p Point3D) SquaredDistanceTo(other Point3D) int {
-	return (p.X - other.X) * (p.X - other.X) + (p.Y - other.Y) * (p.Y - other.Y) + (p.Z - other.Z) * (p.Z - other.Z)
+	return (p.X-other.X)*(p.X-other.X) + (p.Y-other.Y)*(p.Y-other.Y) + (p.Z-other.Z)*(p.Z-other.Z)
 }
 
 func (p Point3D) Minus(other Point3D) Point3D {
@@ -38,7 +38,7 @@ func abs(a int) int {
 }
 
 func (p Point3D) ManhattanDistanceTo(position Point3D) int {
-	return abs(p.X - position.X) + abs(p.Y - position.Y) + abs(p.Z - position.Z)
+	return abs(p.X-position.X) + abs(p.Y-position.Y) + abs(p.Z-position.Z)
 }
 
 func Rotations3D(p Point3D) []Point3D {
