@@ -1,16 +1,16 @@
 package day19
 
 import (
-	"advent2021/day19/geometry"
 	advent "advent2021/utils"
+	"advent2021/utils/geometry"
 	"fmt"
 	"regexp"
 	"strings"
 )
 
 type Scanner struct {
-	id int
-	position geometry.Point3D
+	id         int
+	position   geometry.Point3D
 	seenProbes []geometry.Point3D
 	// maintain a set of all distances between points. Why? This allows us to optimize a lot: if
 	// scanner sees some set of points which will be in some distance from each other, then if other scanner sees the
@@ -80,7 +80,7 @@ func readScannerFrom(lines []string, startPos int) (scanner Scanner, pos int) {
 	}
 
 	scanner = Scanner{
-		id: advent.MustAtoi(submatches[1]),
+		id:       advent.MustAtoi(submatches[1]),
 		position: geometry.Point3D{0, 0, 0},
 	}
 

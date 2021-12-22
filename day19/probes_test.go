@@ -1,8 +1,8 @@
 package day19
 
 import (
-	"advent2021/day19/geometry"
 	advent2 "advent2021/utils"
+	"advent2021/utils/geometry"
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"strings"
