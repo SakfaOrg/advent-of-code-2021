@@ -204,19 +204,11 @@ func isPathFree(fields []Field, path []int) bool {
 }
 
 func roomEntrance(idx int, roomSize int) int {
-	if SANITY_CHECKS && idx <= 10 {
-		panic("Checking entrance of non-room!")
-	}
-
 	roomNumber := (idx-11)/roomSize + 1
 	return 2 * roomNumber
 }
 
 func roomTop(idx int, roomSize int) int {
-	if SANITY_CHECKS && idx <= 10 {
-		panic("Checking top of non-room!")
-	}
-
 	roomNumber := (idx - 11) / roomSize
 	return 11 + roomNumber*roomSize
 }

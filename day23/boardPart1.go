@@ -55,21 +55,6 @@ func (b BoardPart1) signature() Signature {
 		}
 	}
 
-	if SANITY_CHECKS {
-		if len(as) != 2 {
-			panic("Expected exactly 2 as!")
-		}
-		if len(bs) != 2 {
-			panic("Expected exactly 2 bs!")
-		}
-		if len(cs) != 2 {
-			panic("Expected exactly 2 cs!")
-		}
-		if len(ds) != 2 {
-			panic("Expected exactly 2 ds!")
-		}
-	}
-
 	return Signature{
 		a: int64(advent.Min(as...)<<0+advent.Max(as...)<<5+
 			advent.Min(bs...)<<10+advent.Max(bs...)<<15+
@@ -88,14 +73,6 @@ func (b BoardPart1) isArranged() bool {
 		if b[amphipod.room2()] != amphipod || b[amphipod.room2()+1] != amphipod {
 			allInRooms = false
 			break
-		}
-	}
-
-	if SANITY_CHECKS && allInRooms {
-		for i := 0; i <= 10; i++ {
-			if b[i] != EMPTY {
-				panic("Arranged board but hallway is not empty???")
-			}
 		}
 	}
 

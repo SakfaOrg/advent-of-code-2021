@@ -6,8 +6,6 @@ import (
 	"sort"
 )
 
-const SANITY_CHECKS = true
-
 type Signature struct {
 	a, b int64
 }
