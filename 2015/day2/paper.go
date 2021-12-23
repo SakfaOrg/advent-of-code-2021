@@ -9,31 +9,11 @@ import (
 
 type Box struct{ l, w, h int }
 
-func min(a, b, c int) int {
-	if a < b && a < c {
-		return a
-	} else if b < c {
-		return b
-	} else {
-		return c
-	}
-}
-
-func max(a, b, c int) int {
-	if a > b && a > c {
-		return a
-	} else if b > c {
-		return b
-	} else {
-		return c
-	}
-}
-
 func paperNeeded(box Box) int {
 	a := box.l * box.w
 	b := box.w * box.h
 	c := box.h * box.l
-	s := min(a, b, c)
+	s := advent.Min(a, b, c)
 	return 2*(a+b+c) + s
 }
 

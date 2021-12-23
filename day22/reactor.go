@@ -72,19 +72,6 @@ func parseCube(line string) (cube Cube) {
 	return
 }
 
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 type CoordSet map[int]bool
 
 func (cs CoordSet) add(r Range) {
@@ -169,9 +156,9 @@ func Part1(lines []string) string {
 	var pixels [101][101][101]bool
 	for _, line := range lines {
 		cube := parseCube(line)
-		for x := max(cube.xRange.normalize().from, -50); x <= min(cube.xRange.normalize().to, 50); x++ {
-			for y := max(cube.yRange.normalize().from, -50); y <= min(cube.yRange.normalize().to, 50); y++ {
-				for z := max(cube.zRange.normalize().from, -50); z <= min(cube.zRange.normalize().to, 50); z++ {
+		for x := advent.Max(cube.xRange.normalize().from, -50); x <= advent.Min(cube.xRange.normalize().to, 50); x++ {
+			for y := advent.Max(cube.yRange.normalize().from, -50); y <= advent.Min(cube.yRange.normalize().to, 50); y++ {
+				for z := advent.Max(cube.zRange.normalize().from, -50); z <= advent.Min(cube.zRange.normalize().to, 50); z++ {
 					pixels[x+50][y+50][z+50] = line[0:2] == "on"
 				}
 			}

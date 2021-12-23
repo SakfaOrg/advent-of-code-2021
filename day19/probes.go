@@ -155,18 +155,11 @@ func match(scanners []Scanner) []Scanner {
 	return knownList
 }
 
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
 func countSameDistances(s1, s2 Scanner) int {
 	result := 0
 	for distance, count := range *s1.distances {
 		if otherCount, ok := (*s2.distances)[distance]; ok {
-			result += min(count, otherCount)
+			result += advent.Min(count, otherCount)
 		}
 	}
 	return result
