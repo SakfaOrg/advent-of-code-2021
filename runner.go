@@ -71,7 +71,7 @@ func main() {
 	timeTaken += run(20, day20.Part1, day20.Part2, 3)
 	timeTaken += run(21, day21.Part1, day21.Part2, 5)
 	timeTaken += run(22, day22.Part1, day22.Part2, 0)
-	timeTaken += run(23, day23.Part1, day23.Part2, 0)
+	timeTaken += run(23, day23.Part1, day23.Part2, 3)
 
 	fmt.Printf("\n%30s Summary %30s\n\n", "", "")
 	fmt.Printf("All solutions combined took: %s (excluding IO)\n", timeTaken)
