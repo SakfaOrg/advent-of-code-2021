@@ -44,19 +44,5 @@ func TestALU(t *testing.T) {
 		}
 
 		assert.Equal(t, "Max input is 49, min is 11", solve(parseProgram(generic)))
-		assert.Equal(t, "Max input is 49, min is 11", solveNoHashMap(parseProgram(generic)))
-	})
-
-	t.Run("Test deduplicate", func(t *testing.T) {
-		assert.Equal(t, []StateAndMinMax{
-			{State{0,0,1,0}, 3, 12},
-			{State{3,2,5,3}, 2, 9},
-		}, deduplicate([]StateAndMinMax{
-			{State{3, 2, 5, 3}, 5, 9},
-			{State{0, 0, 1, 0}, 5, 9},
-			{State{0, 0, 1, 0}, 3, 12},
-			{State{3, 2, 5, 3}, 2, 1},
-			{State{0, 0, 1, 0}, 4, 11},
-		}))
 	})
 }

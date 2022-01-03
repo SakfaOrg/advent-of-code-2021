@@ -4,7 +4,6 @@ import (
 	advent "advent2021/utils"
 	"fmt"
 	"math"
-	"sort"
 	"strings"
 )
 
@@ -162,90 +161,6 @@ func parseOperand(operand string) Operand {
 	}
 }
 
-type StateAndMinMax struct {
-	s State
-	min, max int64
-}
-
-func deduplicate(states []StateAndMinMax) []StateAndMinMax {
-	sort.Slice(states, func(i int, j int) bool {
-		a := states[i]
-		b := states[j]
-		if a.s.w < b.s.w {
-			return true
-		} else if a.s.w == b.s.w {
-			if a.s.x < b.s.x {
-				return true
-			} else if a.s.x == b.s.x {
-				if a.s.y < b.s.y {
-					return true
-				} else if a.s.y == b.s.y {
-					return a.s.z < b.s.z
-				}
-			}
-		}
-		return false
-	})
-
-	var deduped []StateAndMinMax
-	current := states[0]
-	for i := 1; i < len(states); i++ {
-		if states[i].s == current.s {
-			current.min = advent.Min64(states[i].min, current.min)
-			current.max = advent.Max64(states[i].max, current.max)
-		} else {
-			deduped = append(deduped, current)
-			current = states[i]
-		}
-	}
-	deduped = append(deduped, current)
-	return deduped
-}
-
-func solveNoHashMap(program Program) string {
-	states := []StateAndMinMax{{State{0, 0, 0, 0}, 0, 0}}
-	for digitIdx := 1; digitIdx <= program.digitsCount(); digitIdx++ {
-		var nextStates []StateAndMinMax
-		for _, stateAndMinMax := range states {
-			state := stateAndMinMax.s
-			for digit := 1; digit <= 9; digit++ {
-				// apply current INP for current digit
-				newState := State{state.w, state.x, state.y, state.z}
-				newState.w = digit // note this works because all inp are `inp w`
-				program.run(digitIdx, &newState)
-				// an ugly shortcut but it works for my input: ALL inp instructions store to 'w' register, we can move ahead
-				// and nullify this register already to save quite a lot on number of states we will explore in next step
-				// samy thing with x and y registers, they seem to be multipled by 0 before they are used. In other words:
-				// after each segment, only value remaining in z matters. Curiously, it doesn't help a lot.
-				newState.w = 0
-				newState.x = 0
-				newState.y = 0
-
-				newMax := int64(10)*stateAndMinMax.max + int64(digit)
-				newMin := int64(10)*stateAndMinMax.min + int64(digit)
-				nextStates = append(nextStates, StateAndMinMax{newState, newMin, newMax})
-			}
-		}
-		states = deduplicate(nextStates)
-		fmt.Printf("Done inp %d (have %d states)\n", digitIdx, len(states))
-	}
-
-	min := int64(math.MaxInt64)
-	max := int64(0)
-	for _, state := range states {
-		if state.s.z == 0 {
-			if state.min < min {
-				min = state.min
-			}
-			if state.max > max {
-				max = state.max
-			}
-		}
-	}
-
-	return fmt.Sprintf("Max input is %d, min is %d", max, min)
-}
-
 type MinAndMax struct {
 	min, max int64
 }
@@ -372,18 +287,6 @@ func parseProgram(lines []string) InterpretedProgram {
 	}
 	blocks[inpIdx] = block
 	return InterpretedProgram{blocks}
-}
-
-func greater(a, b int64) bool {
-	return a > b
-}
-
-func smaller(a, b int64) bool {
-	return a < b
-}
-
-func Part1And2Fast(_ []string) string {
-	return solveNoHashMap(CompiledProgram{})
 }
 
 func Part1And2(_ []string) string {

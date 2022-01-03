@@ -2,6 +2,10 @@ package day24
 
 import "strconv"
 
+/**
+ * copied an input file and converted it with bunch of regexps
+ */
+
 type Block func (s *State)()
 
 func (s *State) runBlock(digitIdx int) {
