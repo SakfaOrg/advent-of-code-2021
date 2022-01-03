@@ -87,12 +87,12 @@ func TestAmphipods(t *testing.T) {
 	t.Run("Test arrange", func(t *testing.T) {
 		board := solvedBoard().apply(Move{from: 11, to: 0}).apply(Move{from: 14, to: 3})
 
-		solution := arrange(board)
+		_, solution := arrange(board)
 		assert.NotNil(t, solution)
 	})
 
 	t.Run("Test demo", func(t *testing.T) {
-		solution := arrange(demoBoard())
+		_, solution := arrange(demoBoard())
 		if solution != nil {
 			assert.Equal(t, 12521, solution.cost)
 		} else {
@@ -101,14 +101,14 @@ func TestAmphipods(t *testing.T) {
 	})
 
 	t.Run("Task board", func(t *testing.T) {
-		solution := arrange(taskBoard())
+		_, solution := arrange(taskBoard())
 		assert.Equal(t, 11417, solution.cost)
 	})
 
 	t.Run("Task board Part2", func(t *testing.T) {
 		boardPart1 := taskBoard().(BoardPart1)
 		board := BoardPart2FromPart1(&boardPart1)
-		solution := arrange(board)
+		_, solution := arrange(board)
 		assert.Equal(t, 49529, solution.cost)
 	})
 
@@ -117,7 +117,7 @@ func TestAmphipods(t *testing.T) {
 		board := BoardPart2FromPart1(&boardPart1)
 		assert.Equal(t, "#############\n#           #\n  #B#C#B#D#  \n  #D#C#B#A#  \n  #D#B#A#C#  \n  #A#D#C#A#  \n  #########  ", board.String())
 
-		solution := arrange(board)
+		_, solution := arrange(board)
 		if solution != nil {
 			assert.Equal(t, 44169, solution.cost)
 		} else {

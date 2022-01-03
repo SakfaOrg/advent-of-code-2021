@@ -68,34 +68,6 @@ func NewBoardPart2() *BoardPart2 {
 	return &board
 }
 
-func BoardPart2FromPart1(board *BoardPart1) *BoardPart2 {
-	newBoard := NewBoardPart2()
-	for i := 0; i <= 10; i++ {
-		(*newBoard)[i] = (*board)[i]
-	}
-	(*newBoard)[11] = (*board)[11]
-	(*newBoard)[12] = DESERT
-	(*newBoard)[13] = DESERT
-	(*newBoard)[14] = (*board)[12]
-
-	(*newBoard)[15] = (*board)[13]
-	(*newBoard)[16] = COPPER
-	(*newBoard)[17] = BRONZE
-	(*newBoard)[18] = (*board)[14]
-
-	(*newBoard)[19] = (*board)[15]
-	(*newBoard)[20] = BRONZE
-	(*newBoard)[21] = AMBER
-	(*newBoard)[22] = (*board)[16]
-
-	(*newBoard)[23] = (*board)[17]
-	(*newBoard)[24] = AMBER
-	(*newBoard)[25] = COPPER
-	(*newBoard)[26] = (*board)[18]
-
-	return newBoard
-}
-
 func (b BoardPart2) String() string {
 	corridor := ""
 	for i := 0; i <= 10; i++ {

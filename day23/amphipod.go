@@ -62,10 +62,9 @@ func (sq *SolutionsQueue) Pop() interface{} {
 }
 
 /**
- * find all possible ways to arrange board - with brute force, just check all possible moves each time.
- * This should work because number of legal moves is quite limited
+ * find all possible ways to arrange board - with dijkstra
  */
-func arrange(initialState BoardInterface) *Solution {
+func arrange(initialState BoardInterface) (int, *Solution) {
 	seenBoards := make(map[Signature]bool) // remember states we already saw so we don't move back and forth
 	var toExplore SolutionsQueue
 	heap.Init(&toExplore)
@@ -73,10 +72,10 @@ func arrange(initialState BoardInterface) *Solution {
 
 	explored := 0
 	for toExplore.Len() > 0 {
-		explored++
+		explored += 1
 		solution := heap.Pop(&toExplore).(*Solution)
 		if solution.board.isArranged() {
-			return solution
+			return explored, solution
 		}
 
 		thisSignature := solution.board.signature()
@@ -100,7 +99,7 @@ func arrange(initialState BoardInterface) *Solution {
 			heap.Push(&toExplore, &nextSolution)
 		}
 	}
-	return nil
+	return explored, nil
 }
 
 func taskBoard() BoardInterface {
@@ -116,13 +115,41 @@ func taskBoard() BoardInterface {
 	return board
 }
 
+func BoardPart2FromPart1(board *BoardPart1) *BoardPart2 {
+	newBoard := NewBoardPart2()
+	for i := 0; i <= 10; i++ {
+		(*newBoard)[i] = (*board)[i]
+	}
+	(*newBoard)[11] = (*board)[11]
+	(*newBoard)[12] = DESERT
+	(*newBoard)[13] = DESERT
+	(*newBoard)[14] = (*board)[12]
+
+	(*newBoard)[15] = (*board)[13]
+	(*newBoard)[16] = COPPER
+	(*newBoard)[17] = BRONZE
+	(*newBoard)[18] = (*board)[14]
+
+	(*newBoard)[19] = (*board)[15]
+	(*newBoard)[20] = BRONZE
+	(*newBoard)[21] = AMBER
+	(*newBoard)[22] = (*board)[16]
+
+	(*newBoard)[23] = (*board)[17]
+	(*newBoard)[24] = AMBER
+	(*newBoard)[25] = COPPER
+	(*newBoard)[26] = (*board)[18]
+
+	return newBoard
+}
+
 func Part1(_ []string) string {
-	solution := arrange(taskBoard())
-	return fmt.Sprintf("Least energy permutation with 2 deep rooms: %d", solution.cost)
+	explored, solution := arrange(taskBoard())
+	return fmt.Sprintf("Least energy permutation with 2 deep rooms: %d (explored %d states)", solution.cost, explored)
 }
 
 func Part2(_ []string) string {
 	part1Board := taskBoard().(BoardPart1)
-	solution := arrange(BoardPart2FromPart1(&part1Board))
-	return fmt.Sprintf("Least energy permutation with 4 deep rooms: %d", solution.cost)
+	explored, solution := arrange(BoardPart2FromPart1(&part1Board))
+	return fmt.Sprintf("Least energy permutation with 4 deep rooms: %d (explored %d states)", solution.cost, explored)
 }
