@@ -250,6 +250,18 @@ type MinAndMax struct {
 	min, max int64
 }
 
+func merge(states map[State]MinAndMax, newState State, newMin, newMax int64) {
+	if seenValue, seen := states[newState]; seen {
+		if seenValue.min < newMin {
+			newMin = seenValue.min
+		}
+		if seenValue.max > newMax {
+			newMax = seenValue.max
+		}
+	}
+	states[newState] = MinAndMax{newMin, newMax}
+}
+
 func processDigit(program Program, digit int, digitIdx int, states map[State]MinAndMax, result chan map[State]MinAndMax) {
 	go func() {
 		nextStates := make(map[State]MinAndMax)
@@ -265,17 +277,9 @@ func processDigit(program Program, digit int, digitIdx int, states map[State]Min
 			newState.x = 0
 			newState.y = 0
 
-			newMax := int64(10)*minMax.max + int64(digit)
 			newMin := int64(10)*minMax.min + int64(digit)
-			if seenValue, seen := nextStates[newState]; seen {
-				if seenValue.max > newMax {
-					newMax = seenValue.max
-				}
-				if seenValue.min < newMin {
-					newMin = seenValue.min
-				}
-			}
-			nextStates[newState] = MinAndMax{newMin, newMax}
+			newMax := int64(10)*minMax.max + int64(digit)
+			merge(nextStates, newState, newMin, newMax)
 		}
 		result <- nextStates
 	}()
@@ -294,17 +298,7 @@ func solve(program Program) string {
 		}
 		for digit := 1; digit <= 9; digit++ {
 			for newState, minMax := range <-digitResult {
-				newMax := minMax.max
-				newMin := minMax.min
-				if seenValue, seen := nextStates[newState]; seen {
-					if seenValue.max > newMax {
-						newMax = seenValue.max
-					}
-					if seenValue.min < newMin {
-						newMin = seenValue.min
-					}
-				}
-				nextStates[newState] = MinAndMax{newMin, newMax}
+				merge(nextStates, newState, minMax.min, minMax.max)
 			}
 		}
 
