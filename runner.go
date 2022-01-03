@@ -18,6 +18,7 @@ import (
 	"advent2021/day22"
 	"advent2021/day23"
 	"advent2021/day24"
+	"advent2021/day25"
 	"advent2021/day3"
 	"advent2021/day4"
 	"advent2021/day5"
@@ -74,6 +75,7 @@ func main() {
 	timeTaken += run(22, day22.Part1, day22.Part2, 0)
 	timeTaken += run(23, day23.Part1, day23.Part2, 3)
 	timeTaken += run(24, day24.Part1And2, nil, 0)
+	timeTaken += run(25, day25.Part1, nil, 0)
 
 	fmt.Printf("\n%30s Summary %30s\n\n", "", "")
 	fmt.Printf("All solutions combined took: %s (excluding IO)\n", timeTaken)
